@@ -6,3 +6,6 @@ edition = "2018"
 
 [lib]
 name = "vamc_lexer"
+
+[dependencies]
+unicode-xid = "0.2.1"
