@@ -18,8 +18,8 @@ The following program should compile and run:
 let first: i32 = 20;
 let second: i32 = 22;
 
-let sum: i32 of a: i32 and b: i32 = + a b;
-let sum_with_brackets: i32 of a: i32 and b: i32 = { + a b };
+let sum of a: i32 and b: i32 returning i32 = + a b;
+let sum_with_brackets of a: i32 and b: i32 returning i32 = { + a b };
 
 sum first second; # 42
 sum 10 12; # 22
@@ -90,7 +90,7 @@ let aggregate = sum 5 7;
 
 ```
 let poem: string = "The revery alone will do, if bees are few";
-let sum: i32 of first: i32 and second: i32 = first + second;
+let sum of first: i32 and second: i32 returning i32 = first + second;
 ```
 
 - Types are declared using the `type` keyword.
@@ -102,7 +102,7 @@ type Uuid = string;
 - Generic types are indicated using square brackets `[]`:
 
 ```
-type Five[T] = [T, 5];
+type Five[T] = [5 of T];
 ```
 
 ## Data structures
