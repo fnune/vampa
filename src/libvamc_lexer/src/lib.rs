@@ -61,11 +61,7 @@ impl Cursor<'_> {
 
     /// Currently only works for integers.
     fn token_numeric_literal(&mut self, character: char) -> Token {
-        let kind = TokenKind::Literal {
-            kind: LiteralKind::Int {
-                base: Base::Decimal,
-            },
-        };
+        let kind = TokenKind::Literal(LiteralKind::Int(Base::Decimal));
         let mut value = String::new();
         value.push(character);
         value.push_str(self.bump_while(is_numeric_literal).as_ref());

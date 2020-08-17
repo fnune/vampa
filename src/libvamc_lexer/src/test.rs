@@ -16,14 +16,7 @@ mod test {
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(
             cursor.advance(),
-            Token::new(
-                TokenKind::Literal {
-                    kind: LiteralKind::Int {
-                        base: Base::Decimal
-                    }
-                },
-                "20"
-            )
+            Token::new(TokenKind::Literal(LiteralKind::Int(Base::Decimal)), "20")
         );
         assert_eq!(cursor.advance(), Token::new(TokenKind::Semicolon, ";"));
     }
@@ -33,14 +26,7 @@ mod test {
         let mut cursor = Cursor::new("2 # The number 20");
         assert_eq!(
             cursor.advance(),
-            Token::new(
-                TokenKind::Literal {
-                    kind: LiteralKind::Int {
-                        base: Base::Decimal
-                    }
-                },
-                "2"
-            )
+            Token::new(TokenKind::Literal(LiteralKind::Int(Base::Decimal)), "2")
         );
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(
@@ -97,40 +83,19 @@ mod test {
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(
             cursor.advance(),
-            Token::new(
-                TokenKind::Literal {
-                    kind: LiteralKind::Int {
-                        base: Base::Decimal
-                    }
-                },
-                "2"
-            )
+            Token::new(TokenKind::Literal(LiteralKind::Int(Base::Decimal)), "2")
         );
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(
             cursor.advance(),
-            Token::new(
-                TokenKind::Literal {
-                    kind: LiteralKind::Int {
-                        base: Base::Decimal
-                    }
-                },
-                "2"
-            )
+            Token::new(TokenKind::Literal(LiteralKind::Int(Base::Decimal)), "2")
         );
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(cursor.advance(), Token::new(TokenKind::ClosingBrace, "}"));
         assert_eq!(cursor.advance(), Token::new(TokenKind::Whitespace, " "));
         assert_eq!(
             cursor.advance(),
-            Token::new(
-                TokenKind::Literal {
-                    kind: LiteralKind::Int {
-                        base: Base::Decimal
-                    }
-                },
-                "5"
-            )
+            Token::new(TokenKind::Literal(LiteralKind::Int(Base::Decimal)), "5")
         );
         assert_eq!(cursor.advance(), Token::new(TokenKind::Semicolon, ";"));
     }

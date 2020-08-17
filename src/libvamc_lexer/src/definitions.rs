@@ -8,7 +8,7 @@ pub enum Base {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub enum LiteralKind {
     /// "12"
-    Int { base: Base },
+    Int(Base),
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -21,7 +21,7 @@ pub enum TokenKind {
     /// Nested comments are terminated if they all have balanced opening "#[" and closing "#]" signs.
     BlockComment { terminated: bool },
     /// "12"
-    Literal { kind: LiteralKind },
+    Literal(LiteralKind),
     /// A keyword or a user-defined identifier.
     Identifier,
     /// ":"
