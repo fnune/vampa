@@ -1,4 +1,6 @@
 mod definitions;
+mod literal;
+
 use vamc_lexer::definitions::Token;
 
 use crate::definitions::*;
