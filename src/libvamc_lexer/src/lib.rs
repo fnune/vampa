@@ -1,8 +1,9 @@
 #[cfg(test)]
 mod test;
 
+pub mod definitions;
+
 mod cursor;
-mod definitions;
 mod util;
 
 use crate::cursor::Cursor;
