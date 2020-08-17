@@ -2,6 +2,11 @@ use vamc_lexer::definitions::Token;
 
 type Identifier = Token;
 
+pub struct Module {
+    pub file_name: String,
+    pub statements: Vec<Box<Statement>>,
+}
+
 pub struct Statement {
     pub kind: StatementKind,
 }
