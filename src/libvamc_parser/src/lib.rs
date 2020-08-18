@@ -65,7 +65,8 @@ impl Parser {
         ok: T,
         err: S,
     ) -> ParserResult<T> {
-        let token = self.bump_until_next();
+        self.bump_while_whitespace();
+        let token = self.token();
         match token.kind {
             kind if kind == token_kind => Ok(ok),
             _ => Err(Diagnostic::error(err.into())),
