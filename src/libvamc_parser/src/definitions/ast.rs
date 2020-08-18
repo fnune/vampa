@@ -12,7 +12,7 @@ pub struct Statement {
 pub enum StatementKind {
     VariableDeclaration(VariableDeclaration),
     FunctionDeclaration(FunctionDeclaration),
-    /// An expression statement without a semicolon, expected to be implicitly returned.
+    /// An expression statement expected to be implicitly returned.
     Return(Box<Expression>),
 }
 
