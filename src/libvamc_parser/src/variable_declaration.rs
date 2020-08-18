@@ -6,7 +6,7 @@ use crate::definitions::{Parser, ParserResult};
 use crate::util::*;
 
 impl Parser {
-    fn parse_variable_declaration(&mut self) -> ParserResult<VariableDeclaration> {
+    pub fn parse_variable_declaration(&mut self) -> ParserResult<VariableDeclaration> {
         let token = self.token();
 
         match token.kind {

@@ -3,6 +3,7 @@ mod util;
 
 mod expression;
 mod literal;
+mod statement;
 mod typ;
 mod variable_declaration;
 
