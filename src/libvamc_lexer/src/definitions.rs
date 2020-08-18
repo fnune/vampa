@@ -9,8 +9,6 @@ pub enum Base {
 pub enum LiteralKind {
     /// "12"
     Int(Base),
-    /// A placeholder type for easier matching.
-    Unknown,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]

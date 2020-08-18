@@ -9,7 +9,7 @@ impl Parser {
         let token = self.token();
 
         match token.kind {
-            TokenKind::Literal(LiteralKind::Unknown) => {
+            TokenKind::Literal(_) => {
                 let literal = self
                     .parse_literal()
                     .expect("Failed to parse literal expression.");
