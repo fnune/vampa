@@ -10,16 +10,22 @@ impl Parser {
 
         match token {
             token if is_keyword_let(token) => {
-                let declaration = self
+                let variable_declaration = self
                     .parse_variable_declaration()
-                    .expect("Failed to parse variable declaration.");
+                    .expect("Failed to parse variable declaration statement.");
 
                 Ok(Statement {
-                    kind: StatementKind::VariableDeclaration(declaration),
+                    kind: StatementKind::VariableDeclaration(variable_declaration),
                 })
             }
             token if is_keyword_fun(token) => {
-                unimplemented!();
+                let function_declaration = self
+                    .parse_function_declaration()
+                    .expect("Failed to parse function declaration statement.");
+
+                Ok(Statement {
+                    kind: StatementKind::FunctionDeclaration(function_declaration),
+                })
             }
             _ => Err(Diagnostic::error("Failed to parse statement.".into())),
         }

@@ -24,8 +24,8 @@ pub struct VariableDeclaration {
 
 pub struct FunctionDeclaration {
     pub name: Box<Identifier>,
-    pub parameters: Vec<Box<Parameter>>,
-    pub return_typ: Option<Box<Typ>>,
+    pub parameters: Parameters,
+    pub return_typ: Box<Typ>,
     pub body: Box<Expression>,
 }
 
@@ -33,6 +33,8 @@ pub struct Parameter {
     pub name: Box<Identifier>,
     pub typ: Box<Typ>,
 }
+
+pub type Parameters = Vec<Box<Parameter>>;
 
 pub struct Expression {
     pub kind: ExpressionKind,
