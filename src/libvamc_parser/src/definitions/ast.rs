@@ -1,6 +1,4 @@
-use vamc_lexer::definitions::Token;
-
-type Identifier = Token;
+type Identifier = String;
 
 pub struct Module {
     pub file_name: String,
@@ -20,7 +18,7 @@ pub enum StatementKind {
 
 pub struct VariableDeclaration {
     pub name: Box<Identifier>,
-    pub typ: Option<Box<Typ>>,
+    pub typ: Box<Typ>,
     pub value: Box<Expression>,
 }
 
@@ -91,6 +89,16 @@ pub struct Typ {
 
 pub enum TypKind {
     Int(IntType),
+    /// A placeholder for a type that must be inferred.
+    Infer,
+}
+
+impl Typ {
+    pub fn infer() -> Typ {
+        Typ {
+            kind: { TypKind::Infer },
+        }
+    }
 }
 
 /// Should eventually support the types advertised in the README.

@@ -11,6 +11,7 @@ impl Parser {
         match token.kind {
             TokenKind::Literal(TokenLiteralKind::Int(Base::Decimal)) => {
                 if let Ok(value) = token.value.parse() {
+                    self.bump_until_next();
                     Ok(Literal {
                         kind: LiteralKind::Int(value, LiteralIntType::Unsuffixed),
                     })
