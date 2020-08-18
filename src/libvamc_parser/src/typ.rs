@@ -1,6 +1,7 @@
 use vamc_errors::Diagnostic;
+use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::Typ;
+use crate::definitions::ast::{IntType, Typ, TypKind};
 use crate::definitions::{Parser, ParserResult};
 
 impl Parser {
@@ -8,6 +9,12 @@ impl Parser {
         let token = self.token();
 
         match token.kind {
+            TokenKind::Identifier => match token.value.as_str() {
+                "i32" => Ok(Typ {
+                    kind: TypKind::Int(IntType::I32),
+                }),
+                _ => Err(Diagnostic::error("Unknown type.".into())),
+            },
             _ => Err(Diagnostic::error("Expected a type.".into())),
         }
     }
