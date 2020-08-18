@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod test;
 
+pub mod cursor;
 pub mod definitions;
 
-mod cursor;
 mod util;
 
 use crate::cursor::Cursor;
@@ -114,5 +114,16 @@ impl Cursor<'_> {
     fn token_inline_comment(&mut self) -> Token {
         let value = self.bump_while(|character| character != '\n');
         Token::new(TokenKind::InlineComment, value)
+    }
+}
+
+impl Iterator for Cursor<'_> {
+    type Item = Token;
+
+    fn next(&mut self) -> Option<Token> {
+        match self.is_eof() {
+            false => Some(self.advance()),
+            true => None,
+        }
     }
 }
