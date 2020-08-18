@@ -1,6 +1,7 @@
 mod definitions;
 mod util;
 
+mod block;
 mod expression;
 mod literal;
 mod statement;
@@ -53,11 +54,24 @@ impl Parser {
         &self.tokens[self.index]
     }
 
-    pub fn expect_semicolon<T>(&mut self, ok: T) -> ParserResult<T> {
+    pub fn expect_token<T, S: Into<String>>(
+        &mut self,
+        token_kind: TokenKind,
+        ok: T,
+        err: S,
+    ) -> ParserResult<T> {
         let token = self.bump_until_next();
         match token.kind {
-            TokenKind::Semicolon => Ok(ok),
-            _ => Err(Diagnostic::error("Expected `;`.".into())),
+            kind if kind == token_kind => Ok(ok),
+            _ => Err(Diagnostic::error(err.into())),
         }
+    }
+
+    pub fn expect_semicolon<T>(&mut self, ok: T) -> ParserResult<T> {
+        self.expect_token(TokenKind::Semicolon, ok, "Expected `;`.")
+    }
+
+    pub fn expect_closing_brace<T>(&mut self, ok: T) -> ParserResult<T> {
+        self.expect_token(TokenKind::ClosingBrace, ok, "Expected `}`.")
     }
 }
