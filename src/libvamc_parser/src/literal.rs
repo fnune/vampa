@@ -5,7 +5,7 @@ use crate::definitions::ast::{Literal, LiteralIntType, LiteralKind};
 use crate::definitions::{Parser, ParserResult};
 
 impl Parser {
-    fn parse_literal(&mut self) -> ParserResult<Literal> {
+    pub fn parse_literal(&mut self) -> ParserResult<Literal> {
         let token = self.token();
 
         match token.kind {
