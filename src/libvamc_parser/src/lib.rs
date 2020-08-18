@@ -44,7 +44,7 @@ impl Parser {
     where
         F: Fn(&Token) -> bool,
     {
-        while !self.is_done() && predicate(self.peek().unwrap()) {
+        while !self.is_done() && predicate(self.token()) {
             self.bump();
         }
     }
