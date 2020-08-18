@@ -13,7 +13,7 @@ pub struct Statement {
 
 pub enum StatementKind {
     VariableDeclaration(VariableDeclaration),
-    FunctionVariableDeclaration(FunctionVariableDeclaration),
+    FunctionDeclaration(FunctionDeclaration),
     /// An expression statement without a semicolon, expected to be implicitly returned.
     Return(Box<Expression>),
 }
@@ -24,7 +24,7 @@ pub struct VariableDeclaration {
     pub value: Box<Expression>,
 }
 
-pub struct FunctionVariableDeclaration {
+pub struct FunctionDeclaration {
     pub name: Box<Identifier>,
     pub parameters: Vec<Box<Parameter>>,
     pub return_typ: Option<Box<Typ>>,

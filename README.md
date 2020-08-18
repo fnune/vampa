@@ -18,8 +18,8 @@ The following program should compile and run:
 let first: i32 = 20;
 let second: i32 = 22;
 
-let sum of a: i32 and b: i32 returning i32 = + a b;
-let sum_with_brackets of a: i32 and b: i32 returning i32 = { + a b };
+fun sum of a: i32 and b: i32 returning i32 = + a b;
+fun sum_with_brackets of a: i32 and b: i32 returning i32 = { + a b };
 
 sum first second; # 42
 sum 10 12; # 22
@@ -72,10 +72,10 @@ let poem = "The revery alone will do, if bees are few";
 
 ```
 # Using a body without brackets
-let sum of first_number and second_number = + first_number second_number;
+fun sum of first_number and second_number = + first_number second_number;
 
 # Using a body with brackets, implicitly returning the last expression
-let sum of first_number and second_number = { + first_number second_number };
+fun sum of first_number and second_number = { + first_number second_number };
 ```
 
 - Functions calls and arguments in function calls are delimited with spaces:
@@ -90,7 +90,7 @@ let aggregate = sum 5 7;
 
 ```
 let poem: string = "The revery alone will do, if bees are few";
-let sum of first: i32 and second: i32 returning i32 = first + second;
+fun sum of first: i32 and second: i32 returning i32 = first + second;
 ```
 
 - Types are declared using the `type` keyword.
@@ -166,6 +166,7 @@ These are used in prefix position and can be combined using curly brackets `{}` 
 
 - Any variable starting with any symbol that's not a letter
 - All the types listed above
+- `fun`
 - `let`
 - `and`
 - `of`
