@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod test;
+
 mod definitions;
 mod util;
 

@@ -1,14 +1,17 @@
 type Identifier = String;
 
+#[derive(Debug, PartialEq)]
 pub struct Module {
     pub file_name: String,
     pub statements: Vec<Box<Statement>>,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Statement {
     pub kind: StatementKind,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum StatementKind {
     VariableDeclaration(VariableDeclaration),
     FunctionDeclaration(FunctionDeclaration),
@@ -16,12 +19,14 @@ pub enum StatementKind {
     Return(Box<Expression>),
 }
 
+#[derive(Debug, PartialEq)]
 pub struct VariableDeclaration {
     pub name: Box<Identifier>,
     pub typ: Box<Typ>,
     pub value: Box<Expression>,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct FunctionDeclaration {
     pub name: Box<Identifier>,
     pub parameters: Parameters,
@@ -29,6 +34,7 @@ pub struct FunctionDeclaration {
     pub body: Box<Expression>,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Parameter {
     pub name: Box<Identifier>,
     pub typ: Box<Typ>,
@@ -36,10 +42,12 @@ pub struct Parameter {
 
 pub type Parameters = Vec<Box<Parameter>>;
 
+#[derive(Debug, PartialEq)]
 pub struct Expression {
     pub kind: ExpressionKind,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum ExpressionKind {
     /// A literal expression such as `42`.
     Literal(Literal),
@@ -54,6 +62,7 @@ pub enum ExpressionKind {
     VariableReference(Box<Identifier>),
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Block {
     /// Must end with a `Statement` of `StatementKind::Return`.
     pub statements: Vec<Box<Statement>>,
@@ -61,6 +70,7 @@ pub struct Block {
 
 /// Even though Vampa uses prefix notation, we still refer
 /// to binary operands as <operator> <left> <right>.
+#[derive(Debug, PartialEq)]
 pub struct BinaryOperation {
     pub kind: BinaryOperationKind,
     pub left: Box<Expression>,
@@ -68,27 +78,33 @@ pub struct BinaryOperation {
 }
 
 /// Should eventually support other commonly expected binary operations.
+#[derive(Debug, PartialEq)]
 pub enum BinaryOperationKind {
     Addition,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Literal {
     pub kind: LiteralKind,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum LiteralKind {
     Int(i128, LiteralIntType),
 }
 
 /// Should eventually support signed and unsigned as well.
+#[derive(Debug, PartialEq)]
 pub enum LiteralIntType {
     Unsuffixed,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Typ {
     pub kind: TypKind,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum TypKind {
     Int(IntType),
     /// A placeholder for a type that must be inferred.
@@ -104,6 +120,7 @@ impl Typ {
 }
 
 /// Should eventually support the types advertised in the README.
+#[derive(Debug, PartialEq)]
 pub enum IntType {
     I32,
 }
