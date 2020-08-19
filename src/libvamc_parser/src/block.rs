@@ -21,7 +21,12 @@ impl Parser {
                     }
                 }
 
-                self.expect_closing_brace(Block { statements })
+                let result = self.expect_closing_brace(Block { statements });
+
+                // Eat the closing brace.
+                self.bump_until_next();
+
+                result
             }
             _ => Err(Diagnostic::error("Failed to parse statement.".into())),
         }
