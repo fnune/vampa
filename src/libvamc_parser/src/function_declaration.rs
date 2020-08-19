@@ -22,6 +22,8 @@ impl Parser {
                             .expect("Failed to parse function parameters.");
 
                         let return_typ = if is_keyword_returning(self.token()) {
+                            // Eat the `returning` keyword.
+                            self.bump_until_next();
                             Box::new(
                                 self.parse_typ()
                                     .expect("Failed to parse function return type."),
