@@ -24,15 +24,15 @@ impl Parser {
                         let return_typ = if is_keyword_returning(self.token()) {
                             // Eat the `returning` keyword.
                             self.bump_until_next();
-                            Box::new(
+                            let return_typ = Box::new(
                                 self.parse_typ()
                                     .expect("Failed to parse function return type."),
-                            )
+                            );
+                            self.bump_until_next();
+                            return_typ
                         } else {
                             Box::new(Typ::infer())
                         };
-
-                        self.bump_until_next();
 
                         match self.token().kind {
                             TokenKind::EqualitySign => {
