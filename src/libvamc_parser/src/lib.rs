@@ -10,6 +10,7 @@ mod expression;
 mod function_call;
 mod function_declaration;
 mod literal;
+mod module;
 mod parameters;
 mod statement;
 mod typ;

@@ -12,16 +12,10 @@ impl Parser {
 
         match token.kind {
             TokenKind::OpeningBrace => {
+                // Eat the opening brace.
                 self.bump_until_next();
 
-                let mut statements: Vec<Box<Statement>> = Vec::new();
-
-                while self.token().kind != TokenKind::ClosingBrace {
-                    if let Ok(statement) = self.parse_statement() {
-                        statements.push(Box::new(statement));
-                    }
-                }
-
+                let statements = self.parse_block_statements();
                 let result = self.expect_closing_brace(Block { statements });
 
                 // Eat the closing brace.
@@ -31,5 +25,18 @@ impl Parser {
             },
             _ => Err(Diagnostic::error("Failed to parse statement.".into())),
         }
+    }
+
+    pub fn parse_block_statements(&mut self) -> Vec<Box<Statement>> {
+        let mut statements: Vec<Box<Statement>> = Vec::new();
+
+        while self.token().kind != TokenKind::ClosingBrace && !self.is_done() {
+            statements.push(Box::new(
+                self.parse_statement()
+                    .expect("Failed to parse statement in block."),
+            ));
+        }
+
+        statements
     }
 }

@@ -34,7 +34,7 @@ impl Parser {
             _ => {
                 let statement_expression = self
                     .parse_expression()
-                    .expect("Failed to parse return statement expression");
+                    .expect("Failed to parse return statement expression.");
 
                 Ok(Statement {
                     kind: StatementKind::Return(Box::new(statement_expression)),

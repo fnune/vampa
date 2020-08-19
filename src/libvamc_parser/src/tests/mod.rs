@@ -21,3 +21,8 @@ mod functions {
 mod expressions {
     mod binary_operations;
 }
+
+#[cfg(test)]
+mod modules {
+    mod single_modules;
+}
