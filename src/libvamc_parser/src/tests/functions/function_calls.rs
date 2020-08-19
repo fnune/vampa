@@ -25,13 +25,18 @@ fn function_call_binary() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![Box::new(
-                Expression {
+            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
+                Box::new(Expression {
                     kind: ExpressionKind::Literal(Literal {
                         kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
                     })
-                }
-            )])
+                }),
+                Box::new(Expression {
+                    kind: ExpressionKind::Literal(Literal {
+                        kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+                    })
+                })
+            ])
         })
     )
 }
@@ -45,8 +50,8 @@ fn function_call_binary_with_braces() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![Box::new(
-                Expression {
+            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
+                Box::new(Expression {
                     kind: ExpressionKind::Block(Box::new(Block {
                         statements: vec![Box::new(Statement {
                             kind: StatementKind::Return(Box::new(Expression {
@@ -56,8 +61,13 @@ fn function_call_binary_with_braces() {
                             }))
                         })]
                     })),
-                }
-            )])
+                }),
+                Box::new(Expression {
+                    kind: ExpressionKind::Literal(Literal {
+                        kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+                    })
+                })
+            ])
         })
     )
 }

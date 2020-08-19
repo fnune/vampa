@@ -17,29 +17,42 @@ mod typ;
 mod variable_declaration;
 mod variable_reference;
 
+use std::iter::Peekable;
+
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{Token, TokenKind};
 
 use crate::definitions::*;
 
 impl Parser {
-    pub fn new(tokens: Vec<Token>) -> Parser { Parser { tokens, index: 0 } }
+    pub fn new(tokens: Vec<Token>) -> Parser {
+        let mut tokens = tokens.into_iter().peekable();
+        let current = tokens
+            .peek()
+            .unwrap_or(&Token::new(TokenKind::EOF, ""))
+            .clone();
 
-    pub fn is_done(&self) -> bool { self.index == self.tokens.len() - 1 }
+        Parser { tokens, current }
+    }
 
-    pub fn token(&self) -> &Token { &self.tokens[self.index] }
-
-    pub fn peek(&self) -> Option<&Token> { self.tokens.get(self.index + 1) }
+    pub fn is_done(&mut self) -> bool { self.tokens.peek() == None }
 
     pub fn bump(&mut self) {
         if !self.is_done() {
-            self.index += 1;
-        }
+            self.tokens.next();
+            self.current = self
+                .tokens
+                .peek()
+                .unwrap_or(&Token::new(TokenKind::EOF, ""))
+                .clone()
+        };
     }
+
+    pub fn token(&self) -> &Token { &self.current }
 
     pub fn bump_while<F>(&mut self, predicate: F)
     where F: Fn(&Token) -> bool {
-        while !self.is_done() && predicate(self.token()) {
+        while !self.is_done() && predicate(self.tokens.peek().unwrap()) {
             self.bump();
         }
     }
@@ -51,7 +64,7 @@ impl Parser {
     pub fn bump_until_next(&mut self) -> &Token {
         self.bump();
         self.bump_while_whitespace();
-        &self.token()
+        self.token()
     }
 
     pub fn expect_token<T, S: Into<String>>(

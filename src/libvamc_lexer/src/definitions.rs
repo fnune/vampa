@@ -49,9 +49,11 @@ pub enum TokenKind {
     ClosingBrace,
     /// A token not expected by the lexer.
     Unknown,
+    /// The end of the stream.
+    EOF,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Token {
     pub kind: TokenKind,
     pub value: String,
