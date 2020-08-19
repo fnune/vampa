@@ -19,7 +19,6 @@ impl Parser {
                         self.bump_until_next();
                         let typ = self.parse_typ().expect("Failed to parse parameter type.");
 
-                        self.bump_until_next();
                         Ok(Parameter {
                             name: Box::new(name),
                             typ: Box::new(typ),
@@ -62,6 +61,7 @@ impl Parser {
                     parameters.push(Box::new(
                         self.parse_parameter().expect("Failed to parse parameter."),
                     ));
+                    self.bump_until_next();
                     result = Ok(Vec::default());
                 }
 
