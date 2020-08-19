@@ -47,24 +47,27 @@ impl Parser {
                 ));
 
                 while self.is_parameter_like() {
-                    if parameters.len() >= 1 && is_keyword_and(self.token()) {
-                        // Consume the `and` keyword.
-                        self.bump_until_next();
-                    } else {
-                        result = Err(Diagnostic::error(
-                            "Expected `and` keyword between function parameters.".into(),
-                        ));
-                        break;
+                    if parameters.len() >= 1 {
+                        if is_keyword_and(self.token()) {
+                            // Consume the `and` keyword.
+                            self.bump_until_next();
+                        } else {
+                            result = Err(Diagnostic::error(
+                                "Expected `and` keyword between function parameters.".into(),
+                            ));
+                            break;
+                        }
                     }
 
                     parameters.push(Box::new(
                         self.parse_parameter().expect("Failed to parse parameter."),
                     ));
+                    result = Ok(Vec::default());
                 }
 
                 match result {
                     Err(err) => Err(err),
-                    _ => {
+                    Ok(_) => {
                         self.bump_until_next();
                         Ok(parameters)
                     }
