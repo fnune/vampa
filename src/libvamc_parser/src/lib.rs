@@ -35,9 +35,10 @@ impl Parser {
         self.tokens.get(self.index + 1)
     }
 
-    pub fn bump(&mut self) -> &Token {
-        self.index += 1;
-        &self.tokens[self.index]
+    pub fn bump(&mut self) {
+        if !self.is_done() {
+            self.index += 1;
+        }
     }
 
     pub fn bump_while<F>(&mut self, predicate: F)
@@ -56,7 +57,7 @@ impl Parser {
     pub fn bump_until_next(&mut self) -> &Token {
         self.bump();
         self.bump_while_whitespace();
-        &self.tokens[self.index]
+        &self.token()
     }
 
     pub fn expect_token<T, S: Into<String>>(
