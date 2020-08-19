@@ -44,12 +44,17 @@ impl Parser {
                                         .expect("Failed to parse function body."),
                                 );
 
-                                self.expect_semicolon(FunctionDeclaration {
+                                let result = self.expect_semicolon(FunctionDeclaration {
                                     name,
                                     parameters,
                                     return_typ,
                                     body,
-                                })
+                                });
+
+                                // Eat the semicolon.
+                                self.bump_until_next();
+
+                                result
                             }
                             _ => Err(Diagnostic::error(
                                 "Expected `=` after function signature declaration.".into(),
