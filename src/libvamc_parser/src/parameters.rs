@@ -67,10 +67,7 @@ impl Parser {
 
                 match result {
                     Err(err) => Err(err),
-                    Ok(_) => {
-                        self.bump_until_next();
-                        Ok(parameters)
-                    }
+                    Ok(_) => Ok(parameters),
                 }
             }
             _ => Err(Diagnostic::error(
