@@ -70,8 +70,12 @@ impl Parser {
                     Ok(_) => Ok(parameters),
                 }
             }
+            // A function with an inferred return type that takes no arguments.
+            token if token.kind == TokenKind::EqualitySign => Ok(Vec::default()),
+            // A function with an explicit return type that takes no arguments.
+            token if is_keyword_returning(token) => Ok(Vec::default()),
             _ => Err(Diagnostic::error(
-                "Expected `of` keyword to start a list of parameters.".into(),
+                "Expected `of` keyword to start a list of parameters, or either `returning` or `=` for a function that takes no arguments.".into(),
             )),
         }
     }
