@@ -26,11 +26,16 @@ impl Parser {
                                     .parse_expression()
                                     .expect("Failed to parse expression.");
 
-                                self.expect_semicolon(VariableDeclaration {
+                                let result = self.expect_semicolon(VariableDeclaration {
                                     name: Box::new(name),
                                     typ: Box::new(Typ::infer()),
                                     value: Box::new(value),
-                                })
+                                });
+
+                                // Eat the semicolon.
+                                self.bump_until_next();
+
+                                result
                             }
                             // A type for this variable.
                             TokenKind::Colon => {
@@ -47,11 +52,16 @@ impl Parser {
                                             .parse_expression()
                                             .expect("Failed to parse expression.");
 
-                                        self.expect_semicolon(VariableDeclaration {
+                                        let result = self.expect_semicolon(VariableDeclaration {
                                             name: Box::new(name),
                                             typ: Box::new(typ),
                                             value: Box::new(value),
-                                        })
+                                        });
+
+                                        // Eat the semicolon.
+                                        self.bump_until_next();
+
+                                        result
                                     }
                                     _ => Err(Diagnostic::error(
                                         "Expected `=` after variable declaration type hint.".into(),
