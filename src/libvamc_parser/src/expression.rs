@@ -29,6 +29,7 @@ impl Parser {
                     kind: ExpressionKind::Block(Box::new(block)),
                 })
             },
+            TokenKind::Identifier => self.parse_variable_reference(),
             _ => Err(Diagnostic::error("Failed to parse expression.".into())),
         }
     }

@@ -12,6 +12,7 @@ mod parameters;
 mod statement;
 mod typ;
 mod variable_declaration;
+mod variable_reference;
 
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{Token, TokenKind};
