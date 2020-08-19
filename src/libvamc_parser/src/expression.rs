@@ -18,6 +18,15 @@ impl Parser {
                     kind: ExpressionKind::Literal(literal),
                 })
             }
+            TokenKind::OpeningBrace => {
+                let block = self
+                    .parse_block()
+                    .expect("Failed to parse block expression.");
+
+                Ok(Expression {
+                    kind: ExpressionKind::Block(Box::new(block)),
+                })
+            }
             _ => Err(Diagnostic::error("Failed to parse expression.".into())),
         }
     }

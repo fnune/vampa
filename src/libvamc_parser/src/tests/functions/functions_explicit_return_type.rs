@@ -6,8 +6,7 @@ use crate::*;
 
 #[test]
 fn typed_function_declaration() {
-    let tokens: Vec<Token> =
-        Cursor::new("fun return_one of x: i32 returning i32 = 1;").collect();
+    let tokens: Vec<Token> = Cursor::new("fun return_one of x: i32 returning i32 = 1;").collect();
     let mut parser = Parser::new(tokens);
     let result = parser.parse_statement();
 
@@ -102,8 +101,7 @@ fn typed_binary_function_declaration() {
 #[test]
 fn typed_ternary_function_declaration() {
     let tokens: Vec<Token> =
-        Cursor::new("fun return_one of a: i32 and b: i32 and c: i32 returning i32 = 1;")
-            .collect();
+        Cursor::new("fun return_one of a: i32 and b: i32 and c: i32 returning i32 = 1;").collect();
     let mut parser = Parser::new(tokens);
     let result = parser.parse_statement();
 
