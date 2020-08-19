@@ -166,8 +166,9 @@ These are used in prefix position and can be combined using curly brackets `{}` 
 
 - Any variable starting with any symbol that's not a letter
 - All the types listed above
+- `and`
 - `fun`
 - `let`
-- `and`
 - `of`
+- `returning`
 - `type`
