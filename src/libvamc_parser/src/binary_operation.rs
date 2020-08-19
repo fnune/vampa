@@ -1,9 +1,12 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::{
-    ast::{BinaryOperation, BinaryOperationKind},
-    Parser, ParserResult,
+use crate::{
+    definitions::{
+        ast::{BinaryOperation, BinaryOperationKind},
+        Parser, ParserResult,
+    },
+    util::is_binary_operator,
 };
 
 impl Parser {
@@ -11,7 +14,7 @@ impl Parser {
         let token = self.token();
 
         match token.kind {
-            TokenKind::PlusSign => {
+            token_kind if is_binary_operator(token) => {
                 // Consume the operator.
                 self.bump_until_next();
 
@@ -27,7 +30,7 @@ impl Parser {
                     .expect("Failed to parse right side of binary operation.");
 
                 Ok(BinaryOperation {
-                    kind: BinaryOperationKind::Addition,
+                    kind: BinaryOperationKind::from(token_kind),
                     left: Box::new(left),
                     right: Box::new(right),
                 })
@@ -35,6 +38,15 @@ impl Parser {
             _ => Err(Diagnostic::error(
                 "Failed to parse binary operation.".into(),
             )),
+        }
+    }
+}
+
+impl From<TokenKind> for BinaryOperationKind {
+    fn from(token_kind: TokenKind) -> BinaryOperationKind {
+        match token_kind {
+            TokenKind::PlusSign => BinaryOperationKind::Addition,
+            _ => unimplemented!(),
         }
     }
 }
