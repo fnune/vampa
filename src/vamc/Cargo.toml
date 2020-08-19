@@ -1,0 +1,5 @@
+[package]
+name = "vamc"
+version = "0.1.0"
+authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
+edition = "2018"
