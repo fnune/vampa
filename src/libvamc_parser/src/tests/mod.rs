@@ -15,3 +15,8 @@ mod functions {
     mod functions_implicit_return_type;
     mod functions_with_block_body;
 }
+
+#[cfg(test)]
+mod expressions {
+    mod binary_operations;
+}

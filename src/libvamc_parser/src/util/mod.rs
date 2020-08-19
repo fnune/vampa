@@ -1,5 +1,16 @@
 use vamc_lexer::definitions::*;
 
+pub fn is_binary_operator(token: &Token) -> bool {
+    match token.kind {
+        TokenKind::PlusSign => true,
+        TokenKind::MinusSign => true,
+        TokenKind::Slash => true,
+        TokenKind::PercentSign => true,
+        TokenKind::Star => true,
+        _ => false,
+    }
+}
+
 pub fn is_keyword(token: &Token) -> bool {
     is_keyword_let(token)
         || is_keyword_fun(token)

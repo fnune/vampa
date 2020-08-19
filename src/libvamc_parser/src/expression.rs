@@ -1,9 +1,12 @@
 use vamc_errors::Diagnostic;
-use vamc_lexer::definitions::{LiteralKind, TokenKind};
+use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::{
-    ast::{Expression, ExpressionKind},
-    Parser, ParserResult,
+use crate::{
+    definitions::{
+        ast::{Expression, ExpressionKind},
+        Parser, ParserResult,
+    },
+    util::is_binary_operator,
 };
 
 impl Parser {
@@ -30,6 +33,17 @@ impl Parser {
                 })
             },
             TokenKind::Identifier => self.parse_variable_reference(),
+
+            _ if is_binary_operator(token) => {
+                let binary_operation = self
+                    .parse_binary_operation()
+                    .expect("Failed to parse binary operation.");
+
+                Ok(Expression {
+                    kind: ExpressionKind::BinaryOperation(binary_operation),
+                })
+            },
+
             _ => Err(Diagnostic::error("Failed to parse expression.".into())),
         }
     }

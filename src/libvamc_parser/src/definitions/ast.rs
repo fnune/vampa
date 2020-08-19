@@ -55,7 +55,7 @@ pub enum ExpressionKind {
     /// function expression itself and P is the Vector of parameters.
     FunctionCall(Box<Expression>, Vec<Box<Expression>>),
     /// A binary operation such as `+ 20 20`
-    BinaryOperation(BinaryOperation, Box<Expression>, Box<Expression>),
+    BinaryOperation(BinaryOperation),
     /// Blocks always evaluate to something, so they're also expressions.
     Block(Box<Block>),
     /// A reference to a variable.

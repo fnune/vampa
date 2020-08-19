@@ -4,6 +4,7 @@ mod tests;
 mod definitions;
 mod util;
 
+mod binary_operation;
 mod block;
 mod expression;
 mod function_declaration;
