@@ -5,7 +5,6 @@ use crate::definitions::ast::{Block, Statement};
 use crate::definitions::{Parser, ParserResult};
 
 impl Parser {
-    // TODO: implement erroring out if the last statement isn't a return expression.
     pub fn parse_block(&mut self) -> ParserResult<Block> {
         let token = self.token();
 
