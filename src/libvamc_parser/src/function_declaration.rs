@@ -16,6 +16,7 @@ impl Parser {
                     TokenKind::Identifier => {
                         let name = Box::new(token.value.clone());
 
+                        self.bump_until_next();
                         let parameters = self
                             .parse_parameters()
                             .expect("Failed to parse function parameters.");
