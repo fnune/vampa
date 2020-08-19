@@ -1,8 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{LiteralKind, TokenKind};
 
-use crate::definitions::ast::{Expression, ExpressionKind};
-use crate::definitions::{Parser, ParserResult};
+use crate::definitions::{
+    ast::{Expression, ExpressionKind},
+    Parser, ParserResult,
+};
 
 impl Parser {
     pub fn parse_expression(&mut self) -> ParserResult<Expression> {
@@ -17,7 +19,7 @@ impl Parser {
                 Ok(Expression {
                     kind: ExpressionKind::Literal(literal),
                 })
-            }
+            },
             TokenKind::OpeningBrace => {
                 let block = self
                     .parse_block()
@@ -26,7 +28,7 @@ impl Parser {
                 Ok(Expression {
                     kind: ExpressionKind::Block(Box::new(block)),
                 })
-            }
+            },
             _ => Err(Diagnostic::error("Failed to parse expression.".into())),
         }
     }

@@ -51,8 +51,8 @@ pub struct Expression {
 pub enum ExpressionKind {
     /// A literal expression such as `42`.
     Literal(Literal),
-    /// A function call such as `sum 20 10` FunctionCall(F, P) where F is the function expression
-    /// itself and P is the Vector of parameters.
+    /// A function call such as `sum 20 10` FunctionCall(F, P) where F is the
+    /// function expression itself and P is the Vector of parameters.
     FunctionCall(Box<Expression>, Vec<Box<Expression>>),
     /// A binary operation such as `+ 20 20`
     BinaryOperation(BinaryOperation, Box<Expression>, Box<Expression>),

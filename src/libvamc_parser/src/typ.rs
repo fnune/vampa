@@ -1,8 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::{IntType, Typ, TypKind};
-use crate::definitions::{Parser, ParserResult};
+use crate::definitions::{
+    ast::{IntType, Typ, TypKind},
+    Parser, ParserResult,
+};
 
 impl Parser {
     pub fn parse_typ(&mut self) -> ParserResult<Typ> {

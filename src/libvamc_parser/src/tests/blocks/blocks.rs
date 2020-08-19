@@ -1,8 +1,6 @@
-use vamc_lexer::cursor::Cursor;
-use vamc_lexer::definitions::Token;
+use vamc_lexer::{cursor::Cursor, definitions::Token};
 
-use crate::definitions::ast::*;
-use crate::*;
+use crate::{definitions::ast::*, *};
 
 #[test]
 fn block_with_two_statements_one_variable_declaration() {

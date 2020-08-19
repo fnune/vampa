@@ -32,6 +32,4 @@ pub fn is_whitespace(character: char) -> bool {
   }
 }
 
-pub fn is_numeric_literal(character: char) -> bool {
-    ('0'..='9').contains(&character)
-}
+pub fn is_numeric_literal(character: char) -> bool { ('0'..='9').contains(&character) }

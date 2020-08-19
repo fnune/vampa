@@ -18,7 +18,8 @@ pub enum TokenKind {
     InlineComment,
     /// A block comment:
     /// "#[ This is a block comment #]"
-    /// Nested comments are terminated if they all have balanced opening "#[" and closing "#]" signs.
+    /// Nested comments are terminated if they all have balanced opening "#["
+    /// and closing "#]" signs.
     BlockComment { terminated: bool },
     /// "12"
     Literal(LiteralKind),

@@ -19,21 +19,13 @@ use vamc_lexer::definitions::{Token, TokenKind};
 use crate::definitions::*;
 
 impl Parser {
-    pub fn new(tokens: Vec<Token>) -> Parser {
-        Parser { tokens, index: 0 }
-    }
+    pub fn new(tokens: Vec<Token>) -> Parser { Parser { tokens, index: 0 } }
 
-    pub fn is_done(&self) -> bool {
-        self.index == self.tokens.len() - 1
-    }
+    pub fn is_done(&self) -> bool { self.index == self.tokens.len() - 1 }
 
-    pub fn token(&self) -> &Token {
-        &self.tokens[self.index]
-    }
+    pub fn token(&self) -> &Token { &self.tokens[self.index] }
 
-    pub fn peek(&self) -> Option<&Token> {
-        self.tokens.get(self.index + 1)
-    }
+    pub fn peek(&self) -> Option<&Token> { self.tokens.get(self.index + 1) }
 
     pub fn bump(&mut self) {
         if !self.is_done() {
@@ -42,9 +34,7 @@ impl Parser {
     }
 
     pub fn bump_while<F>(&mut self, predicate: F)
-    where
-        F: Fn(&Token) -> bool,
-    {
+    where F: Fn(&Token) -> bool {
         while !self.is_done() && predicate(self.token()) {
             self.bump();
         }
@@ -65,7 +55,8 @@ impl Parser {
         token_kind: TokenKind,
         ok: T,
         err: S,
-    ) -> ParserResult<T> {
+    ) -> ParserResult<T>
+    {
         self.bump_while_whitespace();
         let token = self.token();
         match token.kind {

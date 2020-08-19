@@ -1,5 +1,4 @@
-use std::iter::Peekable;
-use std::str::Chars;
+use std::{iter::Peekable, str::Chars};
 
 pub struct Cursor<'a> {
     characters: Peekable<Chars<'a>>,
@@ -14,22 +13,14 @@ impl<'a> Cursor<'a> {
         }
     }
 
-    pub fn is_eof(&mut self) -> bool {
-        self.characters.peek() == None
-    }
+    pub fn is_eof(&mut self) -> bool { self.characters.peek() == None }
 
-    pub fn peek(&mut self) -> &char {
-        self.characters.peek().unwrap_or(&EOF_CHARACTER)
-    }
+    pub fn peek(&mut self) -> &char { self.characters.peek().unwrap_or(&EOF_CHARACTER) }
 
-    pub fn bump(&mut self) -> Option<char> {
-        self.characters.next()
-    }
+    pub fn bump(&mut self) -> Option<char> { self.characters.next() }
 
     pub fn bump_while<F>(&mut self, predicate: F) -> String
-    where
-        F: Fn(char) -> bool,
-    {
+    where F: Fn(char) -> bool {
         let mut consumed = String::new();
 
         while predicate(self.peek().clone()) && !self.is_eof() {

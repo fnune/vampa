@@ -1,9 +1,13 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::{Parameter, Parameters};
-use crate::definitions::{Parser, ParserResult};
-use crate::util::{is_keyword_and, is_keyword_of, is_keyword_returning};
+use crate::{
+    definitions::{
+        ast::{Parameter, Parameters},
+        Parser, ParserResult,
+    },
+    util::{is_keyword_and, is_keyword_of, is_keyword_returning},
+};
 
 impl Parser {
     pub fn parse_parameter(&mut self) -> ParserResult<Parameter> {
@@ -23,10 +27,10 @@ impl Parser {
                             name: Box::new(name),
                             typ: Box::new(typ),
                         })
-                    }
+                    },
                     _ => Err(Diagnostic::error("Expected `:`.".into())),
                 }
-            }
+            },
             _ => Err(Diagnostic::error(
                 "Failed to parse function parameter.".into(),
             )),
@@ -69,13 +73,15 @@ impl Parser {
                     Err(err) => Err(err),
                     Ok(_) => Ok(parameters),
                 }
-            }
+            },
             // A function with an inferred return type that takes no arguments.
             token if token.kind == TokenKind::EqualitySign => Ok(Vec::default()),
             // A function with an explicit return type that takes no arguments.
             token if is_keyword_returning(token) => Ok(Vec::default()),
             _ => Err(Diagnostic::error(
-                "Expected `of` keyword to start a list of parameters, or either `returning` or `=` for a function that takes no arguments.".into(),
+                "Expected `of` keyword to start a list of parameters, or either `returning` or \
+                 `=` for a function that takes no arguments."
+                    .into(),
             )),
         }
     }

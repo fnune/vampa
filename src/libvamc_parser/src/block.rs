@@ -1,8 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::{Block, Statement};
-use crate::definitions::{Parser, ParserResult};
+use crate::definitions::{
+    ast::{Block, Statement},
+    Parser, ParserResult,
+};
 
 impl Parser {
     pub fn parse_block(&mut self) -> ParserResult<Block> {
@@ -26,7 +28,7 @@ impl Parser {
                 self.bump_until_next();
 
                 result
-            }
+            },
             _ => Err(Diagnostic::error("Failed to parse statement.".into())),
         }
     }

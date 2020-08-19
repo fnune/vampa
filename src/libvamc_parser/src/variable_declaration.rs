@@ -1,9 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::*;
-use crate::definitions::{Parser, ParserResult};
-use crate::util::*;
+use crate::{
+    definitions::{ast::*, Parser, ParserResult},
+    util::*,
+};
 
 impl Parser {
     pub fn parse_variable_declaration(&mut self) -> ParserResult<VariableDeclaration> {
@@ -36,7 +37,7 @@ impl Parser {
                                 self.bump_until_next();
 
                                 result
-                            }
+                            },
                             // A type for this variable.
                             TokenKind::Colon => {
                                 self.bump_until_next();
@@ -62,22 +63,22 @@ impl Parser {
                                         self.bump_until_next();
 
                                         result
-                                    }
+                                    },
                                     _ => Err(Diagnostic::error(
                                         "Expected `=` after variable declaration type hint.".into(),
                                     )),
                                 }
-                            }
+                            },
                             _ => Err(Diagnostic::error(
                                 "Expected `=` or `:` after variable declaration identifier.".into(),
                             )),
                         }
-                    }
+                    },
                     _ => Err(Diagnostic::error(
                         "Expected identifier after `let` keyword.".into(),
                     )),
                 }
-            }
+            },
             _ => Err(Diagnostic::error("Expected `let` keyword.".into())),
         }
     }

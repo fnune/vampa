@@ -1,8 +1,6 @@
-use vamc_lexer::cursor::Cursor;
-use vamc_lexer::definitions::Token;
+use vamc_lexer::{cursor::Cursor, definitions::Token};
 
-use crate::definitions::ast::*;
-use crate::*;
+use crate::{definitions::ast::*, *};
 
 #[test]
 fn typed_variable_declaration() {

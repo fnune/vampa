@@ -6,9 +6,7 @@ pub mod definitions;
 
 mod util;
 
-use crate::cursor::Cursor;
-use crate::definitions::*;
-use crate::util::*;
+use crate::{cursor::Cursor, definitions::*, util::*};
 
 impl Token {
     pub fn new<S: Into<String>>(kind: TokenKind, value: S) -> Token {
@@ -82,7 +80,7 @@ impl Cursor<'_> {
                             depth += 1;
                             value.push('[');
                             self.bump();
-                        }
+                        },
                         ']' => {
                             depth -= 1;
                             value.push(']');
@@ -90,13 +88,13 @@ impl Cursor<'_> {
                             if depth == 0 {
                                 break;
                             };
-                        }
-                        _ => {}
+                        },
+                        _ => {},
                     }
-                }
+                },
                 character => {
                     value.push(character.clone());
-                }
+                },
             }
         }
 

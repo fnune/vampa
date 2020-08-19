@@ -1,8 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{Base, LiteralKind as TokenLiteralKind, TokenKind};
 
-use crate::definitions::ast::{Literal, LiteralIntType, LiteralKind};
-use crate::definitions::{Parser, ParserResult};
+use crate::definitions::{
+    ast::{Literal, LiteralIntType, LiteralKind},
+    Parser, ParserResult,
+};
 
 impl Parser {
     pub fn parse_literal(&mut self) -> ParserResult<Literal> {
@@ -20,7 +22,7 @@ impl Parser {
                         "Failed to parse LiteralIntType::Unsuffixed from token.".into(),
                     ))
                 }
-            }
+            },
             _ => Err(Diagnostic::error("Failed to parse literal.".into())),
         }
     }

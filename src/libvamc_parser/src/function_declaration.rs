@@ -1,9 +1,10 @@
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
-use crate::definitions::ast::*;
-use crate::definitions::{Parser, ParserResult};
-use crate::util::*;
+use crate::{
+    definitions::{ast::*, Parser, ParserResult},
+    util::*,
+};
 
 impl Parser {
     pub fn parse_function_declaration(&mut self) -> ParserResult<FunctionDeclaration> {
@@ -55,17 +56,17 @@ impl Parser {
                                 self.bump_until_next();
 
                                 result
-                            }
+                            },
                             _ => Err(Diagnostic::error(
                                 "Expected `=` after function signature declaration.".into(),
                             )),
                         }
-                    }
+                    },
                     _ => Err(Diagnostic::error(
                         "Expected identifier after `fun` keyword.".into(),
                     )),
                 }
-            }
+            },
             _ => Err(Diagnostic::error("Expected `fun` keyword.".into())),
         }
     }
