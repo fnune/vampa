@@ -21,10 +21,10 @@ let second: i32 = 22;
 fun sum of a: i32 and b: i32 returning i32 = + a b;
 fun sum_with_brackets of a: i32 and b: i32 returning i32 = { + a b };
 
-sum first second; # 42
-sum 10 12; # 22
-sum { 10 } 10; # 20
-sum { + 2 2 } 5; # 9
+apply sum first second; # 42
+apply sum 10 12; # 22
+apply sum { 10 } 10; # 20
+apply sum { + 2 2 } 5; # 9
 ```
 
 ## General characteristics
@@ -78,10 +78,16 @@ fun sum of first_number and second_number = + first_number second_number;
 fun sum of first_number and second_number = { + first_number second_number };
 ```
 
-- Functions calls and arguments in function calls are delimited with spaces:
+- Functions calls are preceded by `apply` and arguments in function calls are delimited with spaces:
 
 ```
-let aggregate = sum 5 7;
+let aggregate = apply sum 5 7;
+```
+
+- Blocks can be used to eliminate ambiguity:
+
+```
+let aggregate = apply sum 5 { sum 7 8 };
 ```
 
 - Type hints are indicated using a colon `:`, must be placed next to the identifier they refer to, and can be used:
@@ -90,7 +96,7 @@ let aggregate = sum 5 7;
 
 ```
 let poem: string = "The revery alone will do, if bees are few";
-fun sum of first: i32 and second: i32 returning i32 = first + second;
+fun sum of first: i32 and second: i32 returning i32 = + first second;
 ```
 
 - Types are declared using the `type` keyword.
@@ -167,6 +173,7 @@ These are used in prefix position and can be combined using curly brackets `{}` 
 - Any variable starting with any symbol that's not a letter
 - All the types listed above
 - `and`
+- `apply`
 - `fun`
 - `let`
 - `of`

@@ -6,7 +6,7 @@ use crate::{
         ast::{Expression, ExpressionKind},
         Parser, ParserResult,
     },
-    util::is_binary_operator,
+    util::{is_binary_operator, is_keyword_apply},
 };
 
 impl Parser {
@@ -32,7 +32,6 @@ impl Parser {
                     kind: ExpressionKind::Block(Box::new(block)),
                 })
             },
-            TokenKind::Identifier => self.parse_variable_reference(),
 
             _ if is_binary_operator(token) => {
                 let binary_operation = self
@@ -43,6 +42,17 @@ impl Parser {
                     kind: ExpressionKind::BinaryOperation(binary_operation),
                 })
             },
+
+            _ if is_keyword_apply(token) => {
+                let function_call = self
+                    .parse_function_call()
+                    .expect("Failed to parse function call.");
+
+                Ok(function_call)
+            },
+
+            // Must go after the check for the `apply` keyword.
+            TokenKind::Identifier => self.parse_variable_reference(),
 
             _ => Err(Diagnostic::error("Failed to parse expression.".into())),
         }

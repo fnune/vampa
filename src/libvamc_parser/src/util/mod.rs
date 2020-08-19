@@ -11,12 +11,28 @@ pub fn is_binary_operator(token: &Token) -> bool {
     }
 }
 
+pub fn is_parameters_list_termination(token: &Token) -> bool {
+    match token.kind {
+        TokenKind::ClosingBrace => true,
+        TokenKind::Semicolon => true,
+        _ => false,
+    }
+}
+
 pub fn is_keyword(token: &Token) -> bool {
-    is_keyword_let(token)
+    is_keyword_and(token)
+        || is_keyword_apply(token)
         || is_keyword_fun(token)
+        || is_keyword_let(token)
         || is_keyword_of(token)
         || is_keyword_returning(token)
-        || is_keyword_and(token)
+}
+
+pub fn is_keyword_apply(token: &Token) -> bool {
+    match token.kind {
+        TokenKind::Identifier => token.value == "apply",
+        _ => false,
+    }
 }
 
 pub fn is_keyword_let(token: &Token) -> bool {

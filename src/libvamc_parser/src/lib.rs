@@ -7,6 +7,7 @@ mod util;
 mod binary_operation;
 mod block;
 mod expression;
+mod function_call;
 mod function_declaration;
 mod literal;
 mod parameters;
