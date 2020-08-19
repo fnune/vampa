@@ -42,8 +42,6 @@ impl Parser {
                                         .expect("Failed to parse function body."),
                                 );
 
-                                self.bump_until_next();
-
                                 self.expect_semicolon(FunctionDeclaration {
                                     name,
                                     parameters,
