@@ -259,6 +259,8 @@ name = "vamc_llvm"
 version = "0.1.0"
 dependencies = [
  "inkwell",
+ "vamc_errors",
+ "vamc_parser",
 ]
 
 [[package]]

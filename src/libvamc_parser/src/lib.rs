@@ -1,7 +1,8 @@
 #[cfg(test)]
 mod tests;
 
-mod definitions;
+pub mod definitions;
+
 mod util;
 
 mod binary_operation;
@@ -16,8 +17,6 @@ mod statement;
 mod typ;
 mod variable_declaration;
 mod variable_reference;
-
-use std::iter::Peekable;
 
 use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{Token, TokenKind};
