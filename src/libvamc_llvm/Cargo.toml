@@ -7,3 +7,6 @@ edition = "2018"
 [lib]
 name = "vamc_llvm"
 path = "src/lib.rs"
+
+[dependencies]
+inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "llvm10-0" }
