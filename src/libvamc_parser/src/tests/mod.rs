@@ -23,6 +23,6 @@ mod expressions {
 }
 
 #[cfg(test)]
-mod modules {
-    mod single_modules;
+mod source_files {
+    mod simple;
 }

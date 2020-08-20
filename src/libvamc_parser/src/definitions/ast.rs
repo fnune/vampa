@@ -1,7 +1,7 @@
 type Identifier = String;
 
 #[derive(Debug, PartialEq)]
-pub struct Module {
+pub struct SourceFile {
     pub file_name: String,
     pub statements: Vec<Box<Statement>>,
 }

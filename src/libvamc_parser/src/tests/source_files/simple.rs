@@ -6,12 +6,12 @@ use crate::{definitions::ast::*, *};
 fn simple_module() {
     let tokens: Vec<Token> = Cursor::new("let first: i32 = 20; 30").collect();
     let mut parser = Parser::new(tokens);
-    let result = parser.parse_module("my_module.vam");
+    let result = parser.parse_source_file("program.vam");
 
     assert_eq!(
         result,
-        Ok(Module {
-            file_name: "my_module.vam".into(),
+        Ok(SourceFile {
+            file_name: "program.vam".into(),
             statements: vec![
                 Box::new(Statement {
                     kind: StatementKind::VariableDeclaration(VariableDeclaration {
