@@ -63,4 +63,5 @@ llvmenv global system
 llvmenv global 10.0.0
 ```
 
-You may also choose to do this locally with `llvmenv local <entry>`.
+You may also choose to do this locally with `llvmenv local <entry>`. The
+generated `.llvmenv` file is in `.gitignore`.
