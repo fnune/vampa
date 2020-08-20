@@ -5,6 +5,7 @@ pub mod definitions;
 
 mod util;
 
+// All the things that can be parsed.
 mod binary_operation;
 mod block;
 mod expression;
