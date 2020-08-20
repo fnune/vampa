@@ -1,0 +1,9 @@
+[package]
+name = "vamc_llvm"
+version = "0.1.0"
+authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
+edition = "2018"
+
+[lib]
+name = "vamc_llvm"
+path = "src/lib.rs"

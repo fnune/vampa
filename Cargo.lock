@@ -22,6 +22,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "vamc_llvm"
+version = "0.1.0"
+
+[[package]]
 name = "vamc_parser"
 version = "0.1.0"
 dependencies = [

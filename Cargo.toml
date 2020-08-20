@@ -1,7 +1,8 @@
 [workspace]
 members = [
   "src/vamc",
-  "src/libvamc_errors",
   "src/libvamc_lexer",
   "src/libvamc_parser",
+  "src/libvamc_llvm",
+  "src/libvamc_errors",
 ]
