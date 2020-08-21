@@ -2,8 +2,8 @@
 source: src/libvamc_llvm/src/tests/variables/variable_declarations.rs
 expression: function_value.print_to_string().to_string_lossy()
 ---
-define i32 @test() {
-target:
+define i32 @test_function() {
+test_block:
   %first = alloca i32
   store i32 20, i32* %first
 }
