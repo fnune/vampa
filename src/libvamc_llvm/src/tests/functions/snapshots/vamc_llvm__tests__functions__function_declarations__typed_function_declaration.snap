@@ -9,7 +9,7 @@ define i32 @test_function() {
 test_block:
 }
 
-define i32 @return_one(i32 %0) {
+define i32 @return_one(i32 %x) {
 return_one:
   ret i32 1
 }

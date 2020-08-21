@@ -1,6 +1,9 @@
 use crate::definitions::{Compiler, CompilerResult};
 
-use inkwell::{types::BasicTypeEnum, values::FunctionValue};
+use inkwell::{
+    types::BasicTypeEnum,
+    values::{BasicValue, FunctionValue},
+};
 use vamc_errors::Diagnostic;
 use vamc_parser::definitions::ast::{FunctionDeclaration, IntType, Parameters, Typ, TypKind};
 
@@ -66,6 +69,12 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let function_value = self
             .module
             .add_function(function_name, function_signature, None);
+
+        for (index, parameter) in function_value.get_param_iter().enumerate() {
+            parameter
+                .as_basic_value_enum()
+                .set_name(function_parameters[index].name.as_str());
+        }
 
         Ok(function_value)
     }
