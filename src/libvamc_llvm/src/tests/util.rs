@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use inkwell::{basic_block::BasicBlock, context::Context, values::FunctionValue};
+use inkwell::{basic_block::BasicBlock, context::Context};
 
 use crate::definitions::*;
 
@@ -10,7 +10,7 @@ use crate::definitions::*;
 ///
 /// If the test function does not mutate the target block by adding a
 /// terminator, this test will add a dummy terminator for convenience.
-pub fn with_compiler<F: FnOnce(Compiler, BasicBlock, FunctionValue) -> ()>(test: F) {
+pub fn with_compiler<F: FnOnce(Compiler, BasicBlock) -> ()>(test: F) {
     let context = Context::create();
     let module = context.create_module("test_module");
     let builder = context.create_builder();
@@ -34,7 +34,7 @@ pub fn with_compiler<F: FnOnce(Compiler, BasicBlock, FunctionValue) -> ()>(test:
         .context
         .append_basic_block(function_value, "test_block");
 
-    test(compiler, target_block, function_value);
+    test(compiler, target_block);
 
     // Append a terminator instruction for convenience.
     // The user can overwrite it, and then this won't run.

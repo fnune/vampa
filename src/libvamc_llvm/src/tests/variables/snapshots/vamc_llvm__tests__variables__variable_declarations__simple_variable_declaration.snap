@@ -1,7 +1,10 @@
 ---
 source: src/libvamc_llvm/src/tests/variables/variable_declarations.rs
-expression: function_value.print_to_string().to_string_lossy()
+expression: compiler.module.print_to_string().to_string_lossy()
 ---
+; ModuleID = 'test_module'
+source_filename = "test_module"
+
 define i32 @test_function() {
 test_block:
   %first = alloca i32

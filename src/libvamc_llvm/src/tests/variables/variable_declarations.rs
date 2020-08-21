@@ -17,11 +17,11 @@ fn simple_variable_declaration() {
         }),
     };
 
-    with_compiler(|compiler, target_block, function_value| {
+    with_compiler(|compiler, target_block| {
         compiler
             .compile_variable_declaration(target_block, variable_declaration)
             .unwrap();
 
-        assert_snapshot!(function_value.print_to_string().to_string_lossy())
+        assert_snapshot!(compiler.module.print_to_string().to_string_lossy())
     });
 }
