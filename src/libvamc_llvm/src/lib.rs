@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod tests;
+
 mod definitions;
 
 // All the things that can be compiled.
