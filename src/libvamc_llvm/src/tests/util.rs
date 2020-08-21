@@ -5,8 +5,8 @@ use inkwell::{basic_block::BasicBlock, context::Context};
 use crate::definitions::*;
 
 /// Builds a valid compiler with a block in which to write unit tests and
-/// verifies the resulting function value. A failure to verify the function
-/// value will result in a failing test. This is desired.
+/// verifies the resulting module. A failure to verify the module will result in
+/// a failing test. This is desired.
 ///
 /// If the test function does not mutate the target block by adding a
 /// terminator, this test will add a dummy terminator for convenience.
@@ -43,5 +43,5 @@ pub fn with_compiler<F: FnOnce(Compiler, BasicBlock) -> ()>(test: F) {
         builder.build_return(Some(&context.i32_type().const_int(42, false)));
     };
 
-    assert!(function_value.verify(true));
+    assert_eq!(module.verify().unwrap(), ());
 }
