@@ -1,7 +1,6 @@
 use crate::definitions::{Compiler, CompilerResult};
 
 use inkwell::values::AnyValueEnum;
-
 use vamc_parser::definitions::ast::{Expression, ExpressionKind};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
