@@ -1,6 +1,6 @@
 use crate::definitions::{Compiler, CompilerResult};
 
-use inkwell::{basic_block::BasicBlock, values::AnyValueEnum};
+use inkwell::{basic_block::BasicBlock, values::BasicValueEnum};
 
 use vamc_errors::Diagnostic;
 use vamc_parser::definitions::ast::{IntType, TypKind, VariableDeclaration};
@@ -12,7 +12,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         &self,
         target_block: BasicBlock,
         variable_declaration: VariableDeclaration,
-    ) -> CompilerResult<AnyValueEnum>
+    ) -> CompilerResult<BasicValueEnum>
     {
         let name = variable_declaration.name;
 

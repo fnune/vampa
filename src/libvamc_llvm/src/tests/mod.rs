@@ -8,5 +8,6 @@ mod variables {
 
 #[cfg(test)]
 mod functions {
+    mod function_calls;
     mod function_declarations;
 }
