@@ -5,7 +5,7 @@ use vamc_parser::definitions::ast::{Statement, StatementKind};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     /// Does not return anything. It's here for the side effects.
-    pub fn compile_statement(&mut self, target_block: BasicBlock, statement: Statement) {
+    pub fn compile_statement(&self, target_block: BasicBlock, statement: Statement) {
         match statement.kind {
             StatementKind::VariableDeclaration(variable_declaration) => {
                 self.compile_variable_declaration(target_block, variable_declaration)
@@ -16,7 +16,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                     .unwrap();
             },
             StatementKind::Return(statement_expression) => {
-                self.compile_expression(*statement_expression).unwrap();
+                self.builder.build_return(Some(
+                    &self.compile_expression(*statement_expression).unwrap(),
+                ));
             },
         }
     }
