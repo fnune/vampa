@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests;
 
-mod definitions;
+pub mod definitions;
 
 // All the things that can be compiled.
 mod binary_operation;

@@ -10,6 +10,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             ExpressionKind::FunctionCall(function_name, function_parameters) => {
                 self.compile_function_call(function_name.as_str(), function_parameters)
             },
+            ExpressionKind::Block(block) => self.compile_block(*block),
             _ => unimplemented!(),
         }
     }

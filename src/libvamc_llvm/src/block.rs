@@ -1,10 +1,10 @@
 use crate::definitions::{Compiler, CompilerResult};
 
-use inkwell::basic_block::BasicBlock;
+use inkwell::values::BasicValueEnum;
 use vamc_parser::definitions::ast::Block;
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
-    pub fn compile_block(&self, block: Block) -> CompilerResult<BasicBlock> {
+    pub fn compile_block(&self, block: Block) -> CompilerResult<BasicValueEnum> {
         let target_block = self.context.append_basic_block(
             *self
                 .function_value
@@ -12,11 +12,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             "vampa_block",
         );
 
-        block.statements.into_iter().for_each(|statement| {
-            println!("Compiling statement: {:?}", statement);
-            self.compile_statement(target_block, *statement);
-        });
+        let compiled_statements = block
+            .statements
+            .into_iter()
+            .map(|statement| self.compile_statement(target_block, *statement));
 
-        Ok(target_block)
+        Ok(compiled_statements.last().unwrap().unwrap())
     }
 }
