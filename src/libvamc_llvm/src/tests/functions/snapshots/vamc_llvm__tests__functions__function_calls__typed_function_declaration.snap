@@ -5,7 +5,7 @@ expression: compiler.module.print_to_string().to_string_lossy()
 ; ModuleID = 'test_module'
 source_filename = "test_module"
 
-define i32 @test_function() {
+define i32 @main() {
 test_block:
   %apply_return_one = call i32 @return_one(i32 10)
 }

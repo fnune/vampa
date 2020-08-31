@@ -24,9 +24,7 @@ pub fn with_compiler<F: FnOnce(Compiler, BasicBlock) -> ()>(test: F) {
     };
 
     let function_type = compiler.context.i32_type().fn_type(&[], false);
-    let function_value = compiler
-        .module
-        .add_function("test_function", function_type, None);
+    let function_value = compiler.module.add_function("main", function_type, None);
 
     compiler.function_value = Some(&function_value);
 
