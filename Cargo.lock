@@ -368,6 +368,12 @@ checksum = "f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564"
 [[package]]
 name = "vamc"
 version = "0.1.0"
+dependencies = [
+ "inkwell",
+ "vamc_lexer",
+ "vamc_llvm",
+ "vamc_parser",
+]
 
 [[package]]
 name = "vamc_errors"

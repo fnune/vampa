@@ -3,3 +3,10 @@ name = "vamc"
 version = "0.1.0"
 authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
 edition = "2018"
+
+[dependencies]
+vamc_lexer = { path = "../libvamc_lexer" }
+vamc_llvm = { path = "../libvamc_llvm" }
+vamc_parser = { path = "../libvamc_parser" }
+
+inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "llvm10-0" }
