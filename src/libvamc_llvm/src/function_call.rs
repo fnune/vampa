@@ -1,6 +1,6 @@
 use crate::definitions::{Compiler, CompilerResult};
 
-use inkwell::{basic_block::BasicBlock, values::BasicValueEnum};
+use inkwell::values::BasicValueEnum;
 use vamc_errors::Diagnostic;
 use vamc_parser::definitions::ast::Expression;
 

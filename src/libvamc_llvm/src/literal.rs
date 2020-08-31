@@ -1,7 +1,6 @@
 use crate::definitions::{Compiler, CompilerResult};
 
 use inkwell::values::BasicValueEnum;
-
 use vamc_parser::definitions::ast::{Literal, LiteralIntType, LiteralKind};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {

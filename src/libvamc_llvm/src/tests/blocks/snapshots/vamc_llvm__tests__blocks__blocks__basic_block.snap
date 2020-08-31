@@ -1,0 +1,16 @@
+---
+source: src/libvamc_llvm/src/tests/blocks/blocks.rs
+expression: compiler.module.print_to_string().to_string_lossy()
+---
+; ModuleID = 'test_module'
+source_filename = "test_module"
+
+define i32 @test_function() {
+test_block:
+
+vampa_block:                                      ; No predecessors!
+  %first = alloca i32
+  store i32 20, i32* %first
+  ret i32 30
+}
+

@@ -11,3 +11,8 @@ mod functions {
     mod function_calls;
     mod function_declarations;
 }
+
+#[cfg(test)]
+mod blocks {
+    mod blocks;
+}
