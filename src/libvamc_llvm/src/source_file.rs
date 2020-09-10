@@ -1,9 +1,10 @@
-use crate::definitions::Compiler;
+use crate::definitions::{Compiler, CompilerResult};
 
+use inkwell::values::BasicValueEnum;
 use vamc_parser::definitions::ast::SourceFile;
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
-    pub fn compile_source_file(&mut self, source_file: SourceFile) {
+    pub fn compile_source_file(&self, source_file: SourceFile) -> CompilerResult<BasicValueEnum> {
         let target_block = self.context.append_basic_block(
             *self
                 .function_value
@@ -11,8 +12,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             &source_file.file_name,
         );
 
-        source_file.statements.into_iter().for_each(|statement| {
-            self.compile_statement(target_block, *statement);
-        });
+        let compiled_statements = source_file
+            .statements
+            .into_iter()
+            .map(|statement| self.compile_statement(target_block, *statement));
+
+        Ok(compiled_statements.last().unwrap().unwrap())
     }
 }
