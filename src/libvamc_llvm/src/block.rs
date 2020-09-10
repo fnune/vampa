@@ -12,6 +12,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             "vampa_block",
         );
 
+        self.builder.position_at_end(target_block);
+
         let compiled_statements = block
             .statements
             .into_iter()

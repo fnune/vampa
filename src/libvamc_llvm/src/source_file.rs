@@ -12,6 +12,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             &source_file.file_name,
         );
 
+        self.builder.position_at_end(target_block);
+
         let compiled_statements = source_file
             .statements
             .into_iter()
