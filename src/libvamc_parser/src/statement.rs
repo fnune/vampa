@@ -1,5 +1,3 @@
-use vamc_errors::Diagnostic;
-
 use crate::{
     definitions::{
         ast::{Statement, StatementKind},

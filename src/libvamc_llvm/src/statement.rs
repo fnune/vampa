@@ -8,15 +8,14 @@ use vamc_parser::definitions::ast::{Statement, StatementKind};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile_statement(
-        &self,
+        &mut self,
         target_block: BasicBlock,
         statement: Statement,
-    ) -> CompilerResult<BasicValueEnum>
+    ) -> CompilerResult<BasicValueEnum<'ctx>>
     {
         match statement.kind {
             StatementKind::VariableDeclaration(variable_declaration) => {
-                self.compile_variable_declaration(target_block, variable_declaration)
-                    .unwrap();
+                self.compile_variable_declaration(target_block, variable_declaration);
                 Ok(self.context.i8_type().const_zero().as_basic_value_enum())
             },
             StatementKind::FunctionDeclaration(function_declaration) => {

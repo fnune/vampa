@@ -1,10 +1,9 @@
-use crate::definitions::{Compiler, CompilerResult};
+use crate::definitions::Compiler;
 
-use inkwell::values::BasicValueEnum;
 use vamc_parser::definitions::ast::SourceFile;
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
-    pub fn compile_source_file(&self, source_file: SourceFile) -> CompilerResult<BasicValueEnum> {
+    pub fn compile_source_file(&mut self, source_file: SourceFile) {
         let target_block = self.context.append_basic_block(
             *self
                 .function_value
@@ -14,11 +13,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         self.builder.position_at_end(target_block);
 
-        let compiled_statements = source_file
-            .statements
-            .into_iter()
-            .map(|statement| self.compile_statement(target_block, *statement));
-
-        Ok(compiled_statements.last().unwrap().unwrap())
+        source_file.statements.into_iter().for_each(|statement| {
+            self.compile_statement(target_block, *statement)
+                .expect("Failed to compile top-level statement.");
+        });
     }
 }

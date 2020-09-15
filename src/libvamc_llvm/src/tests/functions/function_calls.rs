@@ -23,7 +23,7 @@ fn typed_function_declaration() {
         }),
     };
 
-    with_compiler(|compiler, _| {
+    with_compiler(|mut compiler, _| {
         compiler
             .compile_function_declaration(function_declaration)
             .unwrap();

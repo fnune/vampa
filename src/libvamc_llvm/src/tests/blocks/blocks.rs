@@ -30,7 +30,7 @@ fn basic_block() {
         ],
     };
 
-    with_compiler(|compiler, _| {
+    with_compiler(|mut compiler, _| {
         compiler.compile_block(block).unwrap();
 
         assert_snapshot!(compiler.module.print_to_string().to_string_lossy())

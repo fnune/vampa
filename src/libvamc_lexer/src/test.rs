@@ -22,6 +22,13 @@ mod test {
     }
 
     #[test]
+    fn works_with_a_single_identifier() {
+        let tokens: Vec<Token> = Cursor::new("first").collect();
+
+        assert_eq!(tokens, vec![Token::new(TokenKind::Identifier, "first")])
+    }
+
+    #[test]
     fn works_with_an_inline_comment() {
         let tokens: Vec<Token> = Cursor::new("2 # The number 20").collect();
 
