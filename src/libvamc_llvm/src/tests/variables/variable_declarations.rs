@@ -17,10 +17,8 @@ fn simple_variable_declaration() {
         }),
     };
 
-    with_compiler(|compiler, target_block| {
-        compiler
-            .compile_variable_declaration(target_block, variable_declaration)
-            .unwrap();
+    with_compiler(|mut compiler, target_block| {
+        compiler.compile_variable_declaration(target_block, variable_declaration);
 
         assert_snapshot!(compiler.module.print_to_string().to_string_lossy())
     });

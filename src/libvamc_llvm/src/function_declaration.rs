@@ -9,11 +9,15 @@ use vamc_parser::definitions::ast::{FunctionDeclaration, IntType, Parameters, Ty
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile_function_declaration(
-        &self,
+        &mut self,
         function_declaration: FunctionDeclaration,
     ) -> CompilerResult<FunctionValue>
     {
         let function_name = function_declaration.name.as_str();
+
+        let function_body_expression = self
+            .compile_expression(*function_declaration.body)
+            .expect("Failed to compile function body expression.");
 
         let function = self
             .compile_function_signature(
@@ -26,10 +30,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let function_return_type = function.get_type().get_return_type();
 
         let function_body_block = self.context.append_basic_block(function, function_name);
-
-        let function_body_expression = self
-            .compile_expression(*function_declaration.body)
-            .expect("Failed to compile function body expression.");
 
         let function_body_expression =
             match function_return_type.expect("Functions must all return something.".into()) {

@@ -11,6 +11,10 @@ It should include:
 - The ability to declare and define variables of type `i32`
 - The ability to declare functions (with and without body brackets)
 - The ability to call functions
+- No concept of scope
+  - This is not a permanent feature and scope should [eventually be implemented](https://github.com/fnune/vampa/issues/1)
+  - A single hash map for all variables
+- Variable references
 
 The following program should compile and run:
 

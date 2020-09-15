@@ -1,18 +1,16 @@
-use crate::definitions::{Compiler, CompilerResult};
+use crate::definitions::Compiler;
 
-use inkwell::{basic_block::BasicBlock, values::BasicValueEnum};
-
-use vamc_errors::Diagnostic;
+use inkwell::basic_block::BasicBlock;
 use vamc_parser::definitions::ast::{IntType, TypKind, VariableDeclaration};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     /// We return the assigned value, but the important part is the side effect
     /// of allocating the newly-declared variable into the target block.
     pub fn compile_variable_declaration(
-        &self,
+        &mut self,
         target_block: BasicBlock,
         variable_declaration: VariableDeclaration,
-    ) -> CompilerResult<BasicValueEnum>
+    )
     {
         let name = variable_declaration.name;
 
@@ -31,15 +29,12 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
                         self.builder.build_store(allocation, value.into_int_value());
 
-                        Ok(value)
+                        // TODO: nested scopes https://github.com/fnune/vampa/issues/1
+                        self.variables.insert(*name, allocation);
                     },
                 },
-                TypKind::Infer => Err(Diagnostic::error(
-                    "Type inference isn't supported yet.".into(),
-                )),
+                TypKind::Infer => (),
             }
-        } else {
-            Err(Diagnostic::error("Failed to compile expression.".into()))
         }
     }
 }

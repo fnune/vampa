@@ -4,7 +4,7 @@ use inkwell::values::BasicValueEnum;
 use vamc_parser::definitions::ast::Block;
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
-    pub fn compile_block(&self, block: Block) -> CompilerResult<BasicValueEnum> {
+    pub fn compile_block(&mut self, block: Block) -> CompilerResult<BasicValueEnum<'ctx>> {
         let target_block = self.context.append_basic_block(
             *self
                 .function_value

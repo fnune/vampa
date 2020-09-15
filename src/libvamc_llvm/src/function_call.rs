@@ -6,10 +6,10 @@ use vamc_parser::definitions::ast::Expression;
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile_function_call(
-        &self,
+        &mut self,
         function_name: &str,
         parameters: Vec<Box<Expression>>,
-    ) -> CompilerResult<BasicValueEnum>
+    ) -> CompilerResult<BasicValueEnum<'ctx>>
     {
         self.builder
             .position_at_end(self.function_value.unwrap().get_last_basic_block().unwrap());

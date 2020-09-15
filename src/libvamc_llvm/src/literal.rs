@@ -4,7 +4,7 @@ use inkwell::values::BasicValueEnum;
 use vamc_parser::definitions::ast::{Literal, LiteralIntType, LiteralKind};
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
-    pub fn compile_literal(&self, literal: Literal) -> CompilerResult<BasicValueEnum> {
+    pub fn compile_literal(&self, literal: Literal) -> CompilerResult<BasicValueEnum<'ctx>> {
         match literal.kind {
             LiteralKind::Int(value, typ) => match typ {
                 LiteralIntType::Unsuffixed => Ok(BasicValueEnum::IntValue(
