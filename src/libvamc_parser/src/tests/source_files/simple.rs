@@ -37,3 +37,22 @@ fn simple_module() {
         })
     );
 }
+
+#[test]
+fn simple_module_with_variable_reference() {
+    let tokens: Vec<Token> = Cursor::new("first").collect();
+    let mut parser = Parser::new(tokens);
+    let result = parser.parse_source_file("program.vam");
+
+    assert_eq!(
+        result,
+        Ok(SourceFile {
+            file_name: "program.vam".into(),
+            statements: vec![Box::new(Statement {
+                kind: StatementKind::Return(Box::new(Expression {
+                    kind: ExpressionKind::VariableReference(Box::new("first".to_string())),
+                })),
+            }),]
+        })
+    );
+}
