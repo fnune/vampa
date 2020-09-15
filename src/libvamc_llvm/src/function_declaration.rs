@@ -57,10 +57,17 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             _ => panic!(Diagnostic::error("Only int types are supported.".into())),
         };
 
-        let parameter_types = std::iter::repeat(function_return_type)
-            .take(function_parameters.len())
-            .map(|parameter_type| parameter_type.into())
-            .collect::<Vec<BasicTypeEnum>>();
+        let (parameter_names, parameter_types): (Vec<Box<String>>, Vec<BasicTypeEnum>) =
+            function_parameters
+                .into_iter()
+                .map(|parameter| {
+                    (
+                        parameter.name,
+                        self.compile_typ(&parameter.typ)
+                            .expect("Failed to compile type in function parameters declaration."),
+                    )
+                })
+                .unzip();
 
         let parameter_types_slice = parameter_types.as_slice();
 
@@ -73,7 +80,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         for (index, parameter) in function_value.get_param_iter().enumerate() {
             parameter
                 .as_basic_value_enum()
-                .set_name(function_parameters[index].name.as_str());
+                .set_name(parameter_names[index].as_str());
         }
 
         Ok(function_value)
