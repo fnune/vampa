@@ -1,5 +1,18 @@
 # Vampa
 
+## Development
+
+Dependencies are:
+
+- `llvmenv`, which you can install with `cargo install llvm`
+- `libssl-dev` on Debian or `openssl` on Arch Linux
+
+To build, follow [these setup instructions](/src/libvamc_llvm/README.md) and run:
+
+```
+cargo build
+```
+
 ## MVP
 
 Since the MVP will only deal with integers, I can skip implementing type-checking because everything is an `i32`. Perhaps I will need to implement a type for functions.
