@@ -7,6 +7,10 @@ Dependencies are:
 - `llvmenv`, which you can install with `cargo install llvm`
 - `libssl-dev` on Debian or `openssl` on Arch Linux
 
+Other things I needed on Ubuntu 18:
+
+- `lib32z1-dev`, available through `apt`
+
 To build, follow [these setup instructions](/src/libvamc_llvm/README.md) and run:
 
 ```
