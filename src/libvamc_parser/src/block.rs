@@ -34,9 +34,23 @@ impl Parser {
         let mut statements: Vec<Box<Statement>> = Vec::new();
 
         while self.token().kind != TokenKind::ClosingBrace && !self.is_done() {
-            statements.push(Box::new(self.parse_statement().expect(
-                format!("Failed to parse statement in block {}.", self.token()).as_str(),
-            )));
+            match self.token().kind {
+                TokenKind::InlineComment => {
+                    // TODO: notion of doc comments in AST
+                    self.bump_until_next();
+                }
+                TokenKind::BlockComment { terminated: true } => {
+                    // TODO: notion of doc comments in AST
+                    self.bump_until_next();
+                }
+                TokenKind::BlockComment { terminated: false } => {
+                    // TODO: notion of doc comments in AST
+                    self.bump_until_next();
+                }
+                _ => statements.push(Box::new(self.parse_statement().expect(
+                    format!("Failed to parse statement in block {}.", self.token()).as_str(),
+                ))),
+            }
         }
 
         statements
