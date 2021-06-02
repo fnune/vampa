@@ -22,8 +22,11 @@ impl Parser {
                 self.bump_until_next();
 
                 result
-            },
-            _ => Err(Diagnostic::error("Failed to parse statement.".into())),
+            }
+            _ => Err(Diagnostic::error(format!(
+                "Failed to parse statement {}.",
+                self.token()
+            ))),
         }
     }
 
@@ -31,10 +34,9 @@ impl Parser {
         let mut statements: Vec<Box<Statement>> = Vec::new();
 
         while self.token().kind != TokenKind::ClosingBrace && !self.is_done() {
-            statements.push(Box::new(
-                self.parse_statement()
-                    .expect("Failed to parse statement in block."),
-            ));
+            statements.push(Box::new(self.parse_statement().expect(
+                format!("Failed to parse statement in block {}.", self.token()).as_str(),
+            )));
         }
 
         statements

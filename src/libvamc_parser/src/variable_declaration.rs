@@ -23,9 +23,10 @@ impl Parser {
                             TokenKind::EqualitySign => {
                                 self.bump_until_next();
 
-                                let value = self
-                                    .parse_expression()
-                                    .expect("Failed to parse expression.");
+                                let value = self.parse_expression().expect(
+                                    format!("Failed to parse expression {}.", self.token())
+                                        .as_str(),
+                                );
 
                                 let result = self.expect_semicolon(VariableDeclaration {
                                     name: Box::new(name),
@@ -37,21 +38,24 @@ impl Parser {
                                 self.bump_until_next();
 
                                 result
-                            },
+                            }
                             // A type for this variable.
                             TokenKind::Colon => {
                                 self.bump_until_next();
 
-                                let typ = self.parse_typ().expect("Failed to parse type.");
+                                let typ = self.parse_typ().expect(
+                                    format!("Failed to parse type {}.", self.token()).as_str(),
+                                );
 
                                 let token = self.bump_until_next();
                                 match token.kind {
                                     TokenKind::EqualitySign => {
                                         self.bump_until_next();
 
-                                        let value = self
-                                            .parse_expression()
-                                            .expect("Failed to parse expression.");
+                                        let value = self.parse_expression().expect(
+                                            format!("Failed to parse expression {}.", self.token())
+                                                .as_str(),
+                                        );
 
                                         let result = self.expect_semicolon(VariableDeclaration {
                                             name: Box::new(name),
@@ -63,22 +67,22 @@ impl Parser {
                                         self.bump_until_next();
 
                                         result
-                                    },
+                                    }
                                     _ => Err(Diagnostic::error(
                                         "Expected `=` after variable declaration type hint.".into(),
                                     )),
                                 }
-                            },
+                            }
                             _ => Err(Diagnostic::error(
                                 "Expected `=` or `:` after variable declaration identifier.".into(),
                             )),
                         }
-                    },
+                    }
                     _ => Err(Diagnostic::error(
                         "Expected identifier after `let` keyword.".into(),
                     )),
                 }
-            },
+            }
             _ => Err(Diagnostic::error("Expected `let` keyword.".into())),
         }
     }

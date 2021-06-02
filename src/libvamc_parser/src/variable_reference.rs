@@ -15,8 +15,8 @@ impl Parser {
 
         let result = match token {
             _ if token_is_keyword => Err(Diagnostic::error(format!(
-                "Failed to parse variable reference: `{}` is a reserved keyword.",
-                token.value
+                "Failed to parse variable reference: {} is a reserved keyword.",
+                self.token()
             ))),
             token => Ok(Expression {
                 kind: ExpressionKind::VariableReference(Box::new(token.value.clone())),

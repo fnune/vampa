@@ -7,6 +7,7 @@ pub mod definitions;
 mod util;
 
 use crate::{cursor::Cursor, definitions::*, util::*};
+use std::fmt::{Display, Formatter};
 
 impl Token {
     pub fn new<S: Into<String>>(kind: TokenKind, value: S) -> Token {
@@ -14,6 +15,12 @@ impl Token {
             kind,
             value: value.into(),
         }
+    }
+}
+
+impl Display for Token {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
+        write!(f, "[{:?}] `{}`", self.kind, self.value)
     }
 }
 
@@ -80,7 +87,7 @@ impl Cursor<'_> {
                             depth += 1;
                             value.push('[');
                             self.bump();
-                        },
+                        }
                         ']' => {
                             depth -= 1;
                             value.push(']');
@@ -88,13 +95,13 @@ impl Cursor<'_> {
                             if depth == 0 {
                                 break;
                             };
-                        },
-                        _ => {},
+                        }
+                        _ => {}
                     }
-                },
+                }
                 character => {
                     value.push(character.clone());
-                },
+                }
             }
         }
 

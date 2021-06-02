@@ -26,9 +26,13 @@ impl Parser {
                         self.bump_until_next();
 
                         while !is_parameters_list_termination(self.token()) && !self.is_done() {
-                            let parameter = self
-                                .parse_expression()
-                                .expect("Failed to parse parameter expression in function call.");
+                            let parameter = self.parse_expression().expect(
+                                format!(
+                                    "Failed to parse parameter expression in function call {}.",
+                                    self.token()
+                                )
+                                .as_str(),
+                            );
 
                             parameters.push(Box::new(parameter));
 
@@ -38,12 +42,12 @@ impl Parser {
                         Ok(Expression {
                             kind: ExpressionKind::FunctionCall(name, parameters),
                         })
-                    },
+                    }
                     _ => Err(Diagnostic::error(
                         "Expected identifier after `apply` keyword.".into(),
                     )),
                 }
-            },
+            }
             _ => Err(Diagnostic::error("Failed `apply` keyword.".into())),
         }
     }

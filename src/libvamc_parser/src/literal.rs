@@ -18,12 +18,16 @@ impl Parser {
                         kind: LiteralKind::Int(value, LiteralIntType::Unsuffixed),
                     })
                 } else {
-                    Err(Diagnostic::error(
-                        "Failed to parse LiteralIntType::Unsuffixed from token.".into(),
-                    ))
+                    Err(Diagnostic::error(format!(
+                        "Failed to parse LiteralIntType::Unsuffixed from token {}.",
+                        self.token()
+                    )))
                 }
-            },
-            _ => Err(Diagnostic::error("Failed to parse literal.".into())),
+            }
+            _ => Err(Diagnostic::error(format!(
+                "Failed to parse literal {}.",
+                self.token()
+            ))),
         }
     }
 }

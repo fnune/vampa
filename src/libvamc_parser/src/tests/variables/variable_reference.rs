@@ -27,7 +27,9 @@ fn variable_reference_but_is_keyword() {
         result,
         Err(Diagnostic {
             level: DiagnosticLevel::Error,
-            message: "Failed to parse variable reference: `and` is a reserved keyword.".into(),
+            message:
+                "Failed to parse variable reference: [Identifier] `and` is a reserved keyword."
+                    .into(),
         })
     )
 }

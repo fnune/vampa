@@ -15,46 +15,49 @@ impl Parser {
 
         match token.kind {
             TokenKind::Literal(_) => {
-                let literal = self
-                    .parse_literal()
-                    .expect("Failed to parse literal expression.");
+                let literal = self.parse_literal().expect(
+                    format!("Failed to parse literal expression {}.", self.token()).as_str(),
+                );
 
                 Ok(Expression {
                     kind: ExpressionKind::Literal(literal),
                 })
-            },
+            }
             TokenKind::OpeningBrace => {
                 let block = self
                     .parse_block()
-                    .expect("Failed to parse block expression.");
+                    .expect(format!("Failed to parse block expression {}.", self.token()).as_str());
 
                 Ok(Expression {
                     kind: ExpressionKind::Block(Box::new(block)),
                 })
-            },
+            }
 
             _ if is_binary_operator(token) => {
                 let binary_operation = self
                     .parse_binary_operation()
-                    .expect("Failed to parse binary operation.");
+                    .expect(format!("Failed to parse binary operation {}.", self.token()).as_str());
 
                 Ok(Expression {
                     kind: ExpressionKind::BinaryOperation(binary_operation),
                 })
-            },
+            }
 
             _ if is_keyword_apply(token) => {
                 let function_call = self
                     .parse_function_call()
-                    .expect("Failed to parse function call.");
+                    .expect(format!("Failed to parse function call {}.", self.token()).as_str());
 
                 Ok(function_call)
-            },
+            }
 
             // Must go after the check for the `apply` keyword.
             TokenKind::Identifier => self.parse_variable_reference(),
 
-            _ => Err(Diagnostic::error("Failed to parse expression.".into())),
+            _ => Err(Diagnostic::error(format!(
+                "Failed to parse expression {}.",
+                self.token()
+            ))),
         }
     }
 }
