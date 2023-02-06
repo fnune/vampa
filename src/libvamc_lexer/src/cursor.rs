@@ -13,7 +13,7 @@ impl<'a> Cursor<'a> {
         }
     }
 
-    pub fn is_eof(&mut self) -> bool { self.characters.peek() == None }
+    pub fn is_eof(&mut self) -> bool { self.characters.peek().is_none() }
 
     pub fn peek(&mut self) -> &char { self.characters.peek().unwrap_or(&EOF_CHARACTER) }
 
@@ -23,8 +23,8 @@ impl<'a> Cursor<'a> {
     where F: Fn(char) -> bool {
         let mut consumed = String::new();
 
-        while predicate(self.peek().clone()) && !self.is_eof() {
-            consumed.push(self.peek().clone());
+        while predicate(*self.peek()) && !self.is_eof() {
+            consumed.push(*self.peek());
             self.bump();
         }
 

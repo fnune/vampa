@@ -100,7 +100,7 @@ impl Cursor<'_> {
                     }
                 }
                 character => {
-                    value.push(character.clone());
+                    value.push(character);
                 }
             }
         }

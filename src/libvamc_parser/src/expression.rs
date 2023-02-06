@@ -15,9 +15,7 @@ impl Parser {
 
         match token.kind {
             TokenKind::Literal(_) => {
-                let literal = self.parse_literal().expect(
-                    format!("Failed to parse literal expression {}.", self.token()).as_str(),
-                );
+                let literal = self.parse_literal().unwrap_or_else(|_| panic!("Failed to parse literal expression {}.", self.token()));
 
                 Ok(Expression {
                     kind: ExpressionKind::Literal(literal),
@@ -26,7 +24,7 @@ impl Parser {
             TokenKind::OpeningBrace => {
                 let block = self
                     .parse_block()
-                    .expect(format!("Failed to parse block expression {}.", self.token()).as_str());
+                    .unwrap_or_else(|_| panic!("Failed to parse block expression {}.", self.token()));
 
                 Ok(Expression {
                     kind: ExpressionKind::Block(Box::new(block)),
@@ -36,7 +34,7 @@ impl Parser {
             _ if is_binary_operator(token) => {
                 let binary_operation = self
                     .parse_binary_operation()
-                    .expect(format!("Failed to parse binary operation {}.", self.token()).as_str());
+                    .unwrap_or_else(|_| panic!("Failed to parse binary operation {}.", self.token()));
 
                 Ok(Expression {
                     kind: ExpressionKind::BinaryOperation(binary_operation),
@@ -46,7 +44,7 @@ impl Parser {
             _ if is_keyword_apply(token) => {
                 let function_call = self
                     .parse_function_call()
-                    .expect(format!("Failed to parse function call {}.", self.token()).as_str());
+                    .unwrap_or_else(|_| panic!("Failed to parse function call {}.", self.token()));
 
                 Ok(function_call)
             }

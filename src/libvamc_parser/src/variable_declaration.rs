@@ -23,10 +23,7 @@ impl Parser {
                             TokenKind::EqualitySign => {
                                 self.bump_until_next();
 
-                                let value = self.parse_expression().expect(
-                                    format!("Failed to parse expression {}.", self.token())
-                                        .as_str(),
-                                );
+                                let value = self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse expression {}.", self.token()));
 
                                 let result = self.expect_semicolon(VariableDeclaration {
                                     name: Box::new(name),
@@ -43,19 +40,14 @@ impl Parser {
                             TokenKind::Colon => {
                                 self.bump_until_next();
 
-                                let typ = self.parse_typ().expect(
-                                    format!("Failed to parse type {}.", self.token()).as_str(),
-                                );
+                                let typ = self.parse_typ().unwrap_or_else(|_| panic!("Failed to parse type {}.", self.token()));
 
                                 let token = self.bump_until_next();
                                 match token.kind {
                                     TokenKind::EqualitySign => {
                                         self.bump_until_next();
 
-                                        let value = self.parse_expression().expect(
-                                            format!("Failed to parse expression {}.", self.token())
-                                                .as_str(),
-                                        );
+                                        let value = self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse expression {}.", self.token()));
 
                                         let result = self.expect_semicolon(VariableDeclaration {
                                             name: Box::new(name),

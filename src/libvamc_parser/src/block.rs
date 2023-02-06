@@ -47,9 +47,7 @@ impl Parser {
                     // TODO: notion of doc comments in AST
                     self.bump_until_next();
                 }
-                _ => statements.push(Box::new(self.parse_statement().expect(
-                    format!("Failed to parse statement in block {}.", self.token()).as_str(),
-                ))),
+                _ => statements.push(Box::new(self.parse_statement().unwrap_or_else(|_| panic!("Failed to parse statement in block {}.", self.token())))),
             }
         }
 

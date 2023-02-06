@@ -11,8 +11,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         match self.variables.get(variable_name) {
             Some(pointer_value) => Ok(self.builder.build_load(*pointer_value, variable_name)),
             None => Err(Diagnostic::error(format!(
-                "Reference to undefined variable `{}`.",
-                variable_name
+                "Reference to undefined variable `{variable_name}`."
             ))),
         }
     }

@@ -18,22 +18,14 @@ impl Parser {
                         let name = Box::new(token.value.clone());
 
                         self.bump_until_next();
-                        let parameters = self.parse_parameters().expect(
-                            format!("Failed to parse function parameters {}.", self.token())
-                                .as_str(),
-                        );
+                        let parameters = self.parse_parameters().unwrap_or_else(|_| panic!("Failed to parse function parameters {}.", self.token()));
 
                         let return_typ = if is_keyword_returning(self.token()) {
                             // Eat the `returning` keyword.
                             self.bump_until_next();
                             let return_typ = Box::new(
-                                self.parse_typ().expect(
-                                    format!(
-                                        "Failed to parse function return type {}.",
-                                        self.token()
-                                    )
-                                    .as_str(),
-                                ),
+                                self.parse_typ().unwrap_or_else(|_| panic!("Failed to parse function return type {}.",
+                                        self.token())),
                             );
                             self.bump_until_next();
                             return_typ
@@ -47,10 +39,7 @@ impl Parser {
                                 self.bump_until_next();
 
                                 let body = Box::new(
-                                    self.parse_expression().expect(
-                                        format!("Failed to parse function body {}.", self.token())
-                                            .as_str(),
-                                    ),
+                                    self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse function body {}.", self.token())),
                                 );
 
                                 let result = self.expect_semicolon(FunctionDeclaration {

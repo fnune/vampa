@@ -13,10 +13,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.builder
             .position_at_end(self.function_value.unwrap().get_last_basic_block().unwrap());
 
-        let function_value = self.module.get_function(function_name).expect(&format!(
-            "Failed to find a function with name `{}`.",
-            function_name
-        ));
+        let function_value = self.module.get_function(function_name).unwrap_or_else(|| panic!("{}", "Failed to find a function with name `{function_name}`."));
 
         let mut compiled_parameters: Vec<BasicMetadataValueEnum> =
             Vec::with_capacity(parameters.len());
@@ -31,7 +28,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .build_call(
                 function_value,
                 compiled_parameters.as_slice(),
-                &format!("apply_{}", function_name),
+                &format!("apply_{function_name}"),
             )
             .try_as_basic_value()
             .left()

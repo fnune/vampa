@@ -35,7 +35,7 @@ impl Parser {
         Parser { tokens, current }
     }
 
-    pub fn is_done(&mut self) -> bool { self.tokens.peek() == None }
+    pub fn is_done(&mut self) -> bool { self.tokens.peek().is_none() }
 
     pub fn bump(&mut self) {
         if !self.is_done() {

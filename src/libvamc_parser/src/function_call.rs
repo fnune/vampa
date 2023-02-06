@@ -26,13 +26,8 @@ impl Parser {
                         self.bump_until_next();
 
                         while !is_parameters_list_termination(self.token()) && !self.is_done() {
-                            let parameter = self.parse_expression().expect(
-                                format!(
-                                    "Failed to parse parameter expression in function call {}.",
-                                    self.token()
-                                )
-                                .as_str(),
-                            );
+                            let parameter = self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse parameter expression in function call {}.",
+                                    self.token()));
 
                             parameters.push(Box::new(parameter));
 

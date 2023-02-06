@@ -10,7 +10,7 @@ use crate::definitions::*;
 ///
 /// If the test function does not mutate the target block by adding a
 /// terminator, this test will add a dummy terminator for convenience.
-pub fn with_compiler<F: FnOnce(Compiler, BasicBlock) -> ()>(test: F) {
+pub fn with_compiler<F: FnOnce(Compiler, BasicBlock)>(test: F) {
     let context = Context::create();
     let module = context.create_module("test_module");
     let builder = context.create_builder();

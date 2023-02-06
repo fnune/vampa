@@ -42,7 +42,7 @@ fn main() {
     let output_path = Path::new(output_path_buf.to_str().unwrap());
 
     compiler.compile_source_file(source_file_ast);
-    compiler.module.write_bitcode_to_path(&output_path);
+    compiler.module.write_bitcode_to_path(output_path);
 
     fs::File::open(output_path)
         .unwrap()

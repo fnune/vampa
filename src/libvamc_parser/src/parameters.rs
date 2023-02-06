@@ -21,9 +21,7 @@ impl Parser {
                 match token.kind {
                     TokenKind::Colon => {
                         self.bump_until_next();
-                        let typ = self.parse_typ().expect(
-                            format!("Failed to parse parameter type {}.", self.token()).as_str(),
-                        );
+                        let typ = self.parse_typ().unwrap_or_else(|_| panic!("Failed to parse parameter type {}.", self.token()));
 
                         Ok(Parameter {
                             name: Box::new(name),
@@ -53,7 +51,7 @@ impl Parser {
                 ));
 
                 while self.is_parameter_like() {
-                    if parameters.len() >= 1 {
+                    if !parameters.is_empty() {
                         if is_keyword_and(self.token()) {
                             // Consume the `and` keyword.
                             self.bump_until_next();
@@ -65,9 +63,7 @@ impl Parser {
                         }
                     }
 
-                    parameters.push(Box::new(self.parse_parameter().expect(
-                        format!("Failed to parse parameter {}.", self.token()).as_str(),
-                    )));
+                    parameters.push(Box::new(self.parse_parameter().unwrap_or_else(|_| panic!("Failed to parse parameter {}.", self.token()))));
                     self.bump_until_next();
                     result = Ok(Vec::default());
                 }
