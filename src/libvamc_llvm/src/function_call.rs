@@ -1,6 +1,6 @@
 use crate::definitions::{Compiler, CompilerResult};
 
-use inkwell::values::BasicValueEnum;
+use inkwell::values::{BasicMetadataValueEnum, BasicValueEnum};
 use vamc_errors::Diagnostic;
 use vamc_parser::definitions::ast::Expression;
 
@@ -9,8 +9,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         &mut self,
         function_name: &str,
         parameters: Vec<Box<Expression>>,
-    ) -> CompilerResult<BasicValueEnum<'ctx>>
-    {
+    ) -> CompilerResult<BasicValueEnum<'ctx>> {
         self.builder
             .position_at_end(self.function_value.unwrap().get_last_basic_block().unwrap());
 
@@ -19,10 +18,12 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             function_name
         ));
 
-        let mut compiled_parameters: Vec<BasicValueEnum> = Vec::with_capacity(parameters.len());
+        let mut compiled_parameters: Vec<BasicMetadataValueEnum> =
+            Vec::with_capacity(parameters.len());
 
         for parameter in parameters {
-            compiled_parameters.push(self.compile_expression(*parameter)?);
+            let compiled_expression = self.compile_expression(*parameter)?;
+            compiled_parameters.push(compiled_expression.into());
         }
 
         match self
