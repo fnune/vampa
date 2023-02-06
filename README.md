@@ -17,6 +17,26 @@ To build, follow [these setup instructions](/src/libvamc_llvm/README.md) and run
 cargo build
 ```
 
+## Running a program
+
+See [Thread with programs that compile and run](https://github.com/fnune/vampa/issues/3).
+
+Write your program:
+
+```
+# test.vam
+
+fun three returning i32 = 3;
+
+apply three
+```
+
+Run it:
+
+```sh
+cargo run --bin vamc ./test.vam && lli ./test.o
+```
+
 ## MVP
 
 Since the MVP will only deal with integers, I can skip implementing type-checking because everything is an `i32`. Perhaps I will need to implement a type for functions.
