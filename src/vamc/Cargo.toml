@@ -9,4 +9,4 @@ vamc_lexer = { path = "../libvamc_lexer" }
 vamc_llvm = { path = "../libvamc_llvm" }
 vamc_parser = { path = "../libvamc_parser" }
 
-inkwell = { version = "0.1.0", features = ["llvm10-0"] }
+inkwell = { version = "0.1.1", features = ["llvm10-0"] }
