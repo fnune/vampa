@@ -10,8 +10,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         &mut self,
         target_block: BasicBlock,
         variable_declaration: VariableDeclaration,
-    )
-    {
+    ) {
         let name = variable_declaration.name;
 
         match target_block.get_first_instruction() {

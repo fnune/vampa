@@ -21,16 +21,18 @@ impl Parser {
                 match token.kind {
                     TokenKind::Colon => {
                         self.bump_until_next();
-                        let typ = self.parse_typ().unwrap_or_else(|_| panic!("Failed to parse parameter type {}.", self.token()));
+                        let typ = self.parse_typ().unwrap_or_else(|_| {
+                            panic!("Failed to parse parameter type {}.", self.token())
+                        });
 
                         Ok(Parameter {
                             name: Box::new(name),
                             typ: Box::new(typ),
                         })
-                    }
+                    },
                     _ => Err(Diagnostic::error("Expected `:`.".into())),
                 }
-            }
+            },
             _ => Err(Diagnostic::error(format!(
                 "Failed to parse function parameter {}.",
                 self.token()
@@ -63,7 +65,9 @@ impl Parser {
                         }
                     }
 
-                    parameters.push(Box::new(self.parse_parameter().unwrap_or_else(|_| panic!("Failed to parse parameter {}.", self.token()))));
+                    parameters.push(Box::new(self.parse_parameter().unwrap_or_else(|_| {
+                        panic!("Failed to parse parameter {}.", self.token())
+                    })));
                     self.bump_until_next();
                     result = Ok(Vec::default());
                 }
@@ -72,7 +76,7 @@ impl Parser {
                     Err(err) => Err(err),
                     Ok(_) => Ok(parameters),
                 }
-            }
+            },
             // A function with an inferred return type that takes no arguments.
             token if token.kind == TokenKind::EqualitySign => Ok(Vec::default()),
             // A function with an explicit return type that takes no arguments.

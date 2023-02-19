@@ -33,7 +33,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let function_body_expression =
             match function_return_type.expect("Functions must all return something.") {
                 BasicTypeEnum::IntType(_) => function_body_expression.into_int_value(),
-                _ => panic!("{:?}", Diagnostic::error("Only int types are supported.".into())),
+                _ => panic!(
+                    "{:?}",
+                    Diagnostic::error("Only int types are supported.".into())
+                ),
             };
 
         self.builder.position_at_end(function_body_block);
@@ -52,7 +55,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             TypKind::Int(int_type) => match int_type {
                 IntType::I32 => self.context.i32_type(),
             },
-            _ => panic!("{:?}", Diagnostic::error("Only int types are supported.".into())),
+            _ => panic!(
+                "{:?}",
+                Diagnostic::error("Only int types are supported.".into())
+            ),
         };
 
         let (parameter_names, parameter_types): (Vec<Box<String>>, Vec<BasicMetadataTypeEnum>) =

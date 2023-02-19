@@ -15,7 +15,9 @@ impl Diagnostic {
         Diagnostic { level, message }
     }
 
-    pub fn error(message: String) -> Diagnostic { Diagnostic::new(message, DiagnosticLevel::Error) }
+    pub fn error(message: String) -> Diagnostic {
+        Diagnostic::new(message, DiagnosticLevel::Error)
+    }
 
     pub fn warning(message: String) -> Diagnostic {
         Diagnostic::new(message, DiagnosticLevel::Warning)

@@ -11,8 +11,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         &mut self,
         target_block: BasicBlock,
         statement: Statement,
-    ) -> CompilerResult<BasicValueEnum<'ctx>>
-    {
+    ) -> CompilerResult<BasicValueEnum<'ctx>> {
         match statement.kind {
             StatementKind::VariableDeclaration(variable_declaration) => {
                 self.compile_variable_declaration(target_block, variable_declaration);

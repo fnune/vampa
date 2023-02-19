@@ -29,11 +29,14 @@ fn typed_function_declaration() {
             .unwrap();
 
         compiler
-            .compile_function_call("return_one", vec![Box::new(Expression {
-                kind: ExpressionKind::Literal(Literal {
-                    kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed),
-                }),
-            })])
+            .compile_function_call(
+                "return_one",
+                vec![Box::new(Expression {
+                    kind: ExpressionKind::Literal(Literal {
+                        kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed),
+                    }),
+                })],
+            )
             .unwrap();
 
         assert_snapshot!(compiler.module.print_to_string().to_string_lossy())

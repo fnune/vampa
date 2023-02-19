@@ -18,15 +18,16 @@ impl Parser {
                         let name = Box::new(token.value.clone());
 
                         self.bump_until_next();
-                        let parameters = self.parse_parameters().unwrap_or_else(|_| panic!("Failed to parse function parameters {}.", self.token()));
+                        let parameters = self.parse_parameters().unwrap_or_else(|_| {
+                            panic!("Failed to parse function parameters {}.", self.token())
+                        });
 
                         let return_typ = if is_keyword_returning(self.token()) {
                             // Eat the `returning` keyword.
                             self.bump_until_next();
-                            let return_typ = Box::new(
-                                self.parse_typ().unwrap_or_else(|_| panic!("Failed to parse function return type {}.",
-                                        self.token())),
-                            );
+                            let return_typ = Box::new(self.parse_typ().unwrap_or_else(|_| {
+                                panic!("Failed to parse function return type {}.", self.token())
+                            }));
                             self.bump_until_next();
                             return_typ
                         } else {
@@ -38,9 +39,9 @@ impl Parser {
                                 // Eat the `=`.
                                 self.bump_until_next();
 
-                                let body = Box::new(
-                                    self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse function body {}.", self.token())),
-                                );
+                                let body = Box::new(self.parse_expression().unwrap_or_else(|_| {
+                                    panic!("Failed to parse function body {}.", self.token())
+                                }));
 
                                 let result = self.expect_semicolon(FunctionDeclaration {
                                     name,
@@ -53,17 +54,17 @@ impl Parser {
                                 self.bump_until_next();
 
                                 result
-                            }
+                            },
                             _ => Err(Diagnostic::error(
                                 "Expected `=` after function signature declaration.".into(),
                             )),
                         }
-                    }
+                    },
                     _ => Err(Diagnostic::error(
                         "Expected identifier after `fun` keyword.".into(),
                     )),
                 }
-            }
+            },
             _ => Err(Diagnostic::error("Expected `fun` keyword.".into())),
         }
     }

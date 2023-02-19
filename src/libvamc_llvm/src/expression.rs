@@ -7,8 +7,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile_expression(
         &mut self,
         expression: Expression,
-    ) -> CompilerResult<BasicValueEnum<'ctx>>
-    {
+    ) -> CompilerResult<BasicValueEnum<'ctx>> {
         match expression.kind {
             ExpressionKind::Literal(literal) => self.compile_literal(literal),
             ExpressionKind::FunctionCall(function_name, function_parameters) => {

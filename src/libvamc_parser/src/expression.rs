@@ -15,31 +15,33 @@ impl Parser {
 
         match token.kind {
             TokenKind::Literal(_) => {
-                let literal = self.parse_literal().unwrap_or_else(|_| panic!("Failed to parse literal expression {}.", self.token()));
+                let literal = self.parse_literal().unwrap_or_else(|_| {
+                    panic!("Failed to parse literal expression {}.", self.token())
+                });
 
                 Ok(Expression {
                     kind: ExpressionKind::Literal(literal),
                 })
-            }
+            },
             TokenKind::OpeningBrace => {
-                let block = self
-                    .parse_block()
-                    .unwrap_or_else(|_| panic!("Failed to parse block expression {}.", self.token()));
+                let block = self.parse_block().unwrap_or_else(|_| {
+                    panic!("Failed to parse block expression {}.", self.token())
+                });
 
                 Ok(Expression {
                     kind: ExpressionKind::Block(Box::new(block)),
                 })
-            }
+            },
 
             _ if is_binary_operator(token) => {
-                let binary_operation = self
-                    .parse_binary_operation()
-                    .unwrap_or_else(|_| panic!("Failed to parse binary operation {}.", self.token()));
+                let binary_operation = self.parse_binary_operation().unwrap_or_else(|_| {
+                    panic!("Failed to parse binary operation {}.", self.token())
+                });
 
                 Ok(Expression {
                     kind: ExpressionKind::BinaryOperation(binary_operation),
                 })
-            }
+            },
 
             _ if is_keyword_apply(token) => {
                 let function_call = self
@@ -47,7 +49,7 @@ impl Parser {
                     .unwrap_or_else(|_| panic!("Failed to parse function call {}.", self.token()));
 
                 Ok(function_call)
-            }
+            },
 
             // Must go after the check for the `apply` keyword.
             TokenKind::Identifier => self.parse_variable_reference(),

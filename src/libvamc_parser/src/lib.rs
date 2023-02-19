@@ -35,7 +35,9 @@ impl Parser {
         Parser { tokens, current }
     }
 
-    pub fn is_done(&mut self) -> bool { self.tokens.peek().is_none() }
+    pub fn is_done(&mut self) -> bool {
+        self.tokens.peek().is_none()
+    }
 
     pub fn bump(&mut self) {
         if !self.is_done() {
@@ -48,10 +50,14 @@ impl Parser {
         };
     }
 
-    pub fn token(&self) -> &Token { &self.current }
+    pub fn token(&self) -> &Token {
+        &self.current
+    }
 
     pub fn bump_while<F>(&mut self, predicate: F)
-    where F: Fn(&Token) -> bool {
+    where
+        F: Fn(&Token) -> bool,
+    {
         while !self.is_done() && predicate(self.tokens.peek().unwrap()) {
             self.bump();
         }
@@ -72,8 +78,7 @@ impl Parser {
         token_kind: TokenKind,
         ok: T,
         err: S,
-    ) -> ParserResult<T>
-    {
+    ) -> ParserResult<T> {
         self.bump_while_whitespace();
         let token = self.token();
         match token.kind {

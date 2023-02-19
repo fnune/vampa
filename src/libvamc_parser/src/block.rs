@@ -22,7 +22,7 @@ impl Parser {
                 self.bump_until_next();
 
                 result
-            }
+            },
             _ => Err(Diagnostic::error(format!(
                 "Failed to parse statement {}.",
                 self.token()
@@ -38,16 +38,18 @@ impl Parser {
                 TokenKind::InlineComment => {
                     // TODO: notion of doc comments in AST
                     self.bump_until_next();
-                }
+                },
                 TokenKind::BlockComment { terminated: true } => {
                     // TODO: notion of doc comments in AST
                     self.bump_until_next();
-                }
+                },
                 TokenKind::BlockComment { terminated: false } => {
                     // TODO: notion of doc comments in AST
                     self.bump_until_next();
-                }
-                _ => statements.push(Box::new(self.parse_statement().unwrap_or_else(|_| panic!("Failed to parse statement in block {}.", self.token())))),
+                },
+                _ => statements.push(Box::new(self.parse_statement().unwrap_or_else(|_| {
+                    panic!("Failed to parse statement in block {}.", self.token())
+                }))),
             }
         }
 

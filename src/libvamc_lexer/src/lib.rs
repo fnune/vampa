@@ -87,7 +87,7 @@ impl Cursor<'_> {
                             depth += 1;
                             value.push('[');
                             self.bump();
-                        }
+                        },
                         ']' => {
                             depth -= 1;
                             value.push(']');
@@ -95,13 +95,13 @@ impl Cursor<'_> {
                             if depth == 0 {
                                 break;
                             };
-                        }
-                        _ => {}
+                        },
+                        _ => {},
                     }
-                }
+                },
                 character => {
                     value.push(character);
-                }
+                },
             }
         }
 

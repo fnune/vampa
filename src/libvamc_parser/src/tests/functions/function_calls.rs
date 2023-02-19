@@ -25,18 +25,21 @@ fn function_call_binary() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
-                Box::new(Expression {
-                    kind: ExpressionKind::Literal(Literal {
-                        kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
+            kind: ExpressionKind::FunctionCall(
+                Box::new("sum".to_owned()),
+                vec![
+                    Box::new(Expression {
+                        kind: ExpressionKind::Literal(Literal {
+                            kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
+                        })
+                    }),
+                    Box::new(Expression {
+                        kind: ExpressionKind::Literal(Literal {
+                            kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+                        })
                     })
-                }),
-                Box::new(Expression {
-                    kind: ExpressionKind::Literal(Literal {
-                        kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
-                    })
-                })
-            ])
+                ]
+            )
         })
     )
 }
@@ -50,24 +53,27 @@ fn function_call_binary_with_braces() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
-                Box::new(Expression {
-                    kind: ExpressionKind::Block(Box::new(Block {
-                        statements: vec![Box::new(Statement {
-                            kind: StatementKind::Return(Box::new(Expression {
-                                kind: ExpressionKind::Literal(Literal {
-                                    kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
-                                })
-                            }))
-                        })]
-                    })),
-                }),
-                Box::new(Expression {
-                    kind: ExpressionKind::Literal(Literal {
-                        kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+            kind: ExpressionKind::FunctionCall(
+                Box::new("sum".to_owned()),
+                vec![
+                    Box::new(Expression {
+                        kind: ExpressionKind::Block(Box::new(Block {
+                            statements: vec![Box::new(Statement {
+                                kind: StatementKind::Return(Box::new(Expression {
+                                    kind: ExpressionKind::Literal(Literal {
+                                        kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
+                                    })
+                                }))
+                            })]
+                        })),
+                    }),
+                    Box::new(Expression {
+                        kind: ExpressionKind::Literal(Literal {
+                            kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+                        })
                     })
-                })
-            ])
+                ]
+            )
         })
     )
 }
@@ -87,18 +93,21 @@ fn function_call_binary_as_statement_with_semicolon() {
                     kind: TypKind::Infer
                 }),
                 value: Box::new(Expression {
-                    kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
-                        Box::new(Expression {
-                            kind: ExpressionKind::Literal(Literal {
-                                kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
+                    kind: ExpressionKind::FunctionCall(
+                        Box::new("sum".to_owned()),
+                        vec![
+                            Box::new(Expression {
+                                kind: ExpressionKind::Literal(Literal {
+                                    kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed)
+                                })
+                            }),
+                            Box::new(Expression {
+                                kind: ExpressionKind::Literal(Literal {
+                                    kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
+                                })
                             })
-                        }),
-                        Box::new(Expression {
-                            kind: ExpressionKind::Literal(Literal {
-                                kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed)
-                            })
-                        })
-                    ])
+                        ]
+                    )
                 })
             })
         })
@@ -115,18 +124,21 @@ fn function_call_binary_as_statement_with_braces() {
         kind: ExpressionKind::Block(Box::new(Block {
             statements: vec![Box::new(Statement {
                 kind: StatementKind::Return(Box::new(Expression {
-                    kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![
-                        Box::new(Expression {
-                            kind: ExpressionKind::Literal(Literal {
-                                kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed),
+                    kind: ExpressionKind::FunctionCall(
+                        Box::new("sum".to_owned()),
+                        vec![
+                            Box::new(Expression {
+                                kind: ExpressionKind::Literal(Literal {
+                                    kind: LiteralKind::Int(10, LiteralIntType::Unsuffixed),
+                                }),
                             }),
-                        }),
-                        Box::new(Expression {
-                            kind: ExpressionKind::Literal(Literal {
-                                kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed),
+                            Box::new(Expression {
+                                kind: ExpressionKind::Literal(Literal {
+                                    kind: LiteralKind::Int(15, LiteralIntType::Unsuffixed),
+                                }),
                             }),
-                        }),
-                    ]),
+                        ],
+                    ),
                 })),
             })],
         })),

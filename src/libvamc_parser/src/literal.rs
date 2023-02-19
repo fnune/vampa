@@ -23,7 +23,7 @@ impl Parser {
                         self.token()
                     )))
                 }
-            }
+            },
             _ => Err(Diagnostic::error(format!(
                 "Failed to parse literal {}.",
                 self.token()

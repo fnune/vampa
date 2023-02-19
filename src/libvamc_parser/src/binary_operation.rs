@@ -18,21 +18,29 @@ impl Parser {
                 // Consume the operator.
                 self.bump_until_next();
 
-                let left = self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse left side of binary operation {}.",
-                        self.token()));
+                let left = self.parse_expression().unwrap_or_else(|_| {
+                    panic!(
+                        "Failed to parse left side of binary operation {}.",
+                        self.token()
+                    )
+                });
 
                 // Get to the next expression.
                 self.bump_while_whitespace();
 
-                let right = self.parse_expression().unwrap_or_else(|_| panic!("Failed to parse right side of binary operation {}.",
-                        self.token()));
+                let right = self.parse_expression().unwrap_or_else(|_| {
+                    panic!(
+                        "Failed to parse right side of binary operation {}.",
+                        self.token()
+                    )
+                });
 
                 Ok(BinaryOperation {
                     kind: BinaryOperationKind::from(token_kind),
                     left: Box::new(left),
                     right: Box::new(right),
                 })
-            }
+            },
             _ => Err(Diagnostic::error(format!(
                 "Failed to parse binary operation {}.",
                 self.token()
