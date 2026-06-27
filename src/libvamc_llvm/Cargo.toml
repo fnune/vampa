@@ -12,7 +12,7 @@ path = "src/lib.rs"
 vamc_errors = { path = "../libvamc_errors" }
 vamc_parser = { path = "../libvamc_parser" }
 
-inkwell = { version = "0.1.0", features = ["llvm10-0"] }
+inkwell = { version = "0.9.0", features = ["llvm22-1"] }
 
 [dev-dependencies]
 insta = "1.28.0"

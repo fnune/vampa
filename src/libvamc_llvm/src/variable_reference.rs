@@ -9,7 +9,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         variable_name: &str,
     ) -> CompilerResult<BasicValueEnum<'ctx>> {
         match self.variables.get(variable_name) {
-            Some(pointer_value) => Ok(self.builder.build_load(*pointer_value, variable_name)),
+            Some(pointer_value) => Ok(self
+                .builder
+                .build_load(self.context.i32_type(), *pointer_value, variable_name)
+                .expect("Failed to load variable from its allocation.")),
             None => Err(Diagnostic::error(format!(
                 "Reference to undefined variable `{variable_name}`."
             ))),

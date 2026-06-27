@@ -24,9 +24,12 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                     IntType::I32 => {
                         let allocation = self
                             .builder
-                            .build_alloca(self.context.i32_type(), name.as_str());
+                            .build_alloca(self.context.i32_type(), name.as_str())
+                            .expect("Failed to allocate space for variable.");
 
-                        self.builder.build_store(allocation, value.into_int_value());
+                        self.builder
+                            .build_store(allocation, value.into_int_value())
+                            .expect("Failed to store value into variable allocation.");
 
                         // TODO: nested scopes https://github.com/fnune/vampa/issues/1
                         self.variables.insert(*name, allocation);

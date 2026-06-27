@@ -24,7 +24,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             },
             StatementKind::Return(statement_expression) => {
                 let compiled_expression = self.compile_expression(*statement_expression).unwrap();
-                self.builder.build_return(Some(&compiled_expression));
+                self.builder
+                    .build_return(Some(&compiled_expression))
+                    .expect("Failed to build return statement.");
                 Ok(compiled_expression)
             },
         }

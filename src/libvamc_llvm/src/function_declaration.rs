@@ -11,7 +11,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile_function_declaration(
         &mut self,
         function_declaration: FunctionDeclaration,
-    ) -> CompilerResult<FunctionValue> {
+    ) -> CompilerResult<FunctionValue<'_>> {
         let function_name = function_declaration.name.as_str();
 
         let function_body_expression = self
@@ -40,7 +40,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             };
 
         self.builder.position_at_end(function_body_block);
-        self.builder.build_return(Some(&function_body_expression));
+        self.builder
+            .build_return(Some(&function_body_expression))
+            .expect("Failed to build function return.");
 
         Ok(function)
     }
@@ -50,7 +52,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         function_parameters: Parameters,
         function_return_typ: Typ,
         function_name: &str,
-    ) -> CompilerResult<FunctionValue> {
+    ) -> CompilerResult<FunctionValue<'_>> {
         let function_return_type = match function_return_typ.kind {
             TypKind::Int(int_type) => match int_type {
                 IntType::I32 => self.context.i32_type(),

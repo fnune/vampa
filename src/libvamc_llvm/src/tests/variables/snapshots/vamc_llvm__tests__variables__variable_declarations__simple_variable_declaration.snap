@@ -7,7 +7,7 @@ source_filename = "test_module"
 
 define i32 @main() {
 test_block:
-  %first = alloca i32
-  store i32 20, i32* %first
+  %first = alloca i32, align 4
+  store i32 20, ptr %first, align 4
 }
 

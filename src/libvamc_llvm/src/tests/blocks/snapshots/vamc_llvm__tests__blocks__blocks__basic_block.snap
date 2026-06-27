@@ -9,8 +9,8 @@ define i32 @main() {
 test_block:
 
 vampa_block:                                      ; No predecessors!
-  %first = alloca i32
-  store i32 20, i32* %first
+  %first = alloca i32, align 4
+  store i32 20, ptr %first, align 4
   ret i32 30
 }
 

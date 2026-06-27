@@ -35,8 +35,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 compiled_parameters.as_slice(),
                 &format!("apply_{function_name}"),
             )
+            .expect("Failed to build function call.")
             .try_as_basic_value()
-            .left()
+            .basic()
         {
             Some(value) => Ok(value),
             None => Err(Diagnostic::error(

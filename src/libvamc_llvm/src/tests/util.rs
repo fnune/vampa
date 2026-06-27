@@ -38,7 +38,9 @@ pub fn with_compiler<F: FnOnce(Compiler, BasicBlock)>(test: F) {
     // The user can overwrite it, and then this won't run.
     if target_block.get_terminator().is_none() {
         builder.position_at_end(target_block);
-        builder.build_return(Some(&context.i32_type().const_int(42, false)));
+        builder
+            .build_return(Some(&context.i32_type().const_int(42, false)))
+            .expect("Failed to build return terminator.");
     };
 
     assert_eq!(module.verify().unwrap(), ());
