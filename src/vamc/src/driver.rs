@@ -1,13 +1,8 @@
-use std::collections::HashMap;
 use std::path::PathBuf;
 
-use inkwell::OptimizationLevel;
-use inkwell::context::Context;
-use inkwell::targets::{
-    CodeModel, FileType, InitializationConfig, RelocMode, Target, TargetMachine,
-};
+use vamc_backend::Backend;
 use vamc_lexer::{cursor::Cursor, definitions::Token};
-use vamc_llvm::definitions::Compiler;
+use vamc_llvm::LlvmBackend;
 use vamc_parser::definitions::Parser;
 
 use crate::host::Host;
@@ -27,7 +22,15 @@ impl<H: Host> Driver<H> {
             .read_source(source_path)
             .map_err(|error| format!("Failed to read {source_path}: {error}"))?;
 
-        let object_bytes = emit_object(source_path, &source);
+        let tokens: Vec<Token> = Cursor::new(&source).collect();
+        let mut parser = Parser::new(tokens);
+        let program = parser
+            .parse_source_file(source_path)
+            .expect("Failed to parse source file.");
+
+        let object_bytes = LlvmBackend
+            .compile_program(program)
+            .map_err(|diagnostic| format!("{diagnostic:?}"))?;
 
         let object_path = PathBuf::from(source_path).with_extension("o");
         let object_str = object_path
@@ -49,57 +52,6 @@ impl<H: Host> Driver<H> {
 
         Ok(executable_path)
     }
-}
-
-fn emit_object(module_name: &str, source: &str) -> Vec<u8> {
-    let tokens: Vec<Token> = Cursor::new(source).collect();
-    let mut parser = Parser::new(tokens);
-    let source_file_ast = parser
-        .parse_source_file(module_name)
-        .expect("Failed to parse source file.");
-
-    let context = Context::create();
-    let module = context.create_module(module_name);
-    let builder = context.create_builder();
-
-    let mut compiler = Compiler {
-        context: &context,
-        builder: &builder,
-        module: &module,
-        function_value: None,
-        variables: HashMap::new(),
-    };
-
-    let function_type = compiler.context.i32_type().fn_type(&[], false);
-    let function_value = compiler.module.add_function("main", function_type, None);
-    compiler.function_value = Some(&function_value);
-
-    compiler.compile_source_file(source_file_ast);
-
-    Target::initialize_native(&InitializationConfig::default())
-        .expect("Failed to initialize the native target.");
-
-    let triple = TargetMachine::get_default_triple();
-    let target = Target::from_triple(&triple).expect("Failed to look up the native target.");
-    let machine = target
-        .create_target_machine(
-            &triple,
-            TargetMachine::get_host_cpu_name().to_str().unwrap(),
-            TargetMachine::get_host_cpu_features().to_str().unwrap(),
-            OptimizationLevel::None,
-            RelocMode::PIC,
-            CodeModel::Default,
-        )
-        .expect("Failed to create a target machine.");
-
-    module.set_triple(&triple);
-    module.set_data_layout(&machine.get_target_data().get_data_layout());
-
-    machine
-        .write_to_memory_buffer(&module, FileType::Object)
-        .expect("Failed to emit a native object file.")
-        .as_slice()
-        .to_vec()
 }
 
 #[cfg(test)]

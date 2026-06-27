@@ -3,6 +3,9 @@ mod tests;
 
 pub mod definitions;
 
+mod llvm_backend;
+pub use llvm_backend::LlvmBackend;
+
 // All the things that can be compiled.
 mod binary_operation;
 mod block;

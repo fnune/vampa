@@ -191,8 +191,17 @@ name = "vamc"
 version = "0.1.0"
 dependencies = [
  "inkwell",
+ "vamc_backend",
  "vamc_lexer",
  "vamc_llvm",
+ "vamc_parser",
+]
+
+[[package]]
+name = "vamc_backend"
+version = "0.1.0"
+dependencies = [
+ "vamc_errors",
  "vamc_parser",
 ]
 
@@ -213,6 +222,7 @@ version = "0.1.0"
 dependencies = [
  "inkwell",
  "insta",
+ "vamc_backend",
  "vamc_errors",
  "vamc_parser",
 ]

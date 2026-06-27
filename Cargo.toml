@@ -5,5 +5,6 @@ members = [
   "src/libvamc_lexer",
   "src/libvamc_parser",
   "src/libvamc_llvm",
+  "src/libvamc_backend",
   "src/libvamc_errors",
 ]
