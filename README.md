@@ -2,19 +2,43 @@
 
 ## Development
 
-Dependencies are:
+[Nix](https://nixos.org/download/) with flakes enabled is the only supported
+way to build and develop Vampa. It provides the exact Rust toolchain and LLVM
+the project expects, so there are no system dependencies to install by hand.
 
-- `llvmenv`, which you can install with `cargo install llvm`
-- `libssl-dev` on Debian or `openssl` on Arch Linux
+Enter a development shell with everything on `PATH` (Rust, LLVM, `just`):
 
-Other things I needed on Ubuntu 18:
-
-- `lib32z1-dev`, available through `apt`
-
-To build, follow [these setup instructions](/src/libvamc_llvm/README.md) and run:
-
+```sh
+nix develop
 ```
-cargo build
+
+Or build the compiler directly:
+
+```sh
+nix build       # produces ./result/bin/vamc
+nix run -- ./test.vam
+```
+
+### direnv
+
+For an automatic shell that loads whenever you `cd` into the project, install
+[direnv](https://direnv.net) and create a `.envrc` (it is git-ignored):
+
+```sh
+echo "use flake" > .envrc
+direnv allow
+```
+
+### Common tasks
+
+Recipes live in the [`justfile`](/justfile) and run inside the Nix shell:
+
+```sh
+just build           # cargo build
+just test            # cargo test
+just run ./test.vam  # compile and run a program
+just fmt             # format every file via `nix fmt`
+just check           # nix flake check
 ```
 
 ## Running a program
@@ -31,10 +55,10 @@ fun three returning i32 = 3;
 apply three
 ```
 
-Run it:
+Compile and run it. A program's result is its exit code:
 
 ```sh
-cargo run --bin vamc ./test.vam && lli ./test.o
+just run ./test.vam
 ```
 
 ## MVP
