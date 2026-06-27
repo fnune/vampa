@@ -3,8 +3,8 @@ use vamc_lexer::definitions::TokenKind;
 
 use crate::{
     definitions::{
-        ast::{BinaryOperation, BinaryOperationKind},
         Parser, ParserResult,
+        ast::{BinaryOperation, BinaryOperationKind},
     },
     util::is_binary_operator,
 };

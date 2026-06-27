@@ -1,4 +1,4 @@
-use crate::definitions::{ast::SourceFile, Parser, ParserResult};
+use crate::definitions::{Parser, ParserResult, ast::SourceFile};
 
 impl Parser {
     pub fn parse_source_file(&mut self, file_name: &str) -> ParserResult<SourceFile> {

@@ -2,8 +2,8 @@ use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
 use crate::definitions::{
-    ast::{IntType, Typ, TypKind},
     Parser, ParserResult,
+    ast::{IntType, Typ, TypKind},
 };
 
 impl Parser {

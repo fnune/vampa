@@ -2,8 +2,8 @@ use vamc_errors::Diagnostic;
 
 use crate::{
     definitions::{
-        ast::{Expression, ExpressionKind},
         Parser, ParserResult,
+        ast::{Expression, ExpressionKind},
     },
     util::is_keyword,
 };

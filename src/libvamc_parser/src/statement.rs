@@ -1,7 +1,7 @@
 use crate::{
     definitions::{
-        ast::{Statement, StatementKind},
         Parser, ParserResult,
+        ast::{Statement, StatementKind},
     },
     util::{is_keyword_fun, is_keyword_let},
 };

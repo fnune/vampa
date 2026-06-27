@@ -2,7 +2,7 @@ use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::TokenKind;
 
 use crate::{
-    definitions::{ast::*, Parser, ParserResult},
+    definitions::{Parser, ParserResult, ast::*},
     util::*,
 };
 

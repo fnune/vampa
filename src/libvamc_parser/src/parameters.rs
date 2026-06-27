@@ -3,8 +3,8 @@ use vamc_lexer::definitions::TokenKind;
 
 use crate::{
     definitions::{
-        ast::{Parameter, Parameters},
         Parser, ParserResult,
+        ast::{Parameter, Parameters},
     },
     util::{is_keyword_and, is_keyword_of, is_keyword_returning},
 };

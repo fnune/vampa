@@ -2,8 +2,8 @@ use vamc_errors::Diagnostic;
 use vamc_lexer::definitions::{Base, LiteralKind as TokenLiteralKind, TokenKind};
 
 use crate::definitions::{
-    ast::{Literal, LiteralIntType, LiteralKind},
     Parser, ParserResult,
+    ast::{Literal, LiteralIntType, LiteralKind},
 };
 
 impl Parser {
