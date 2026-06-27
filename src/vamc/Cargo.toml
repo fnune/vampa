@@ -5,9 +5,5 @@ authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
 edition = "2021"
 
 [dependencies]
-vamc_backend = { path = "../libvamc_backend" }
-vamc_lexer = { path = "../libvamc_lexer" }
+vamc_driver = { path = "../libvamc_driver" }
 vamc_llvm = { path = "../libvamc_llvm" }
-vamc_parser = { path = "../libvamc_parser" }
-
-inkwell = { version = "0.9.0", features = ["llvm22-1"] }

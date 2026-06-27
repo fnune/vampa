@@ -4,8 +4,9 @@ use inkwell::OptimizationLevel;
 use inkwell::context::Context;
 use inkwell::targets::{InitializationConfig, Target};
 use vamc_lexer::{cursor::Cursor, definitions::Token};
-use vamc_llvm::definitions::Compiler;
 use vamc_parser::definitions::Parser;
+
+use crate::definitions::Compiler;
 
 fn run(source: &str) -> i32 {
     Target::initialize_native(&InitializationConfig::default())

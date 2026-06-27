@@ -1,19 +1,24 @@
 use std::path::PathBuf;
 
-use vamc_backend::Backend;
+use vamc_errors::Diagnostic;
 use vamc_lexer::{cursor::Cursor, definitions::Token};
-use vamc_llvm::LlvmBackend;
 use vamc_parser::definitions::Parser;
+use vamc_parser::definitions::ast::SourceFile;
 
 use crate::host::Host;
 
-pub struct Driver<H: Host> {
-    host: H,
+pub trait Backend {
+    fn compile_program(&self, program: SourceFile) -> Result<Vec<u8>, Diagnostic>;
 }
 
-impl<H: Host> Driver<H> {
-    pub fn new(host: H) -> Self {
-        Driver { host }
+pub struct Driver<H: Host, B: Backend> {
+    host: H,
+    backend: B,
+}
+
+impl<H: Host, B: Backend> Driver<H, B> {
+    pub fn new(host: H, backend: B) -> Self {
+        Driver { host, backend }
     }
 
     pub fn compile(&self, source_path: &str) -> Result<PathBuf, String> {
@@ -28,7 +33,8 @@ impl<H: Host> Driver<H> {
             .parse_source_file(source_path)
             .expect("Failed to parse source file.");
 
-        let object_bytes = LlvmBackend
+        let object_bytes = self
+            .backend
             .compile_program(program)
             .map_err(|diagnostic| format!("{diagnostic:?}"))?;
 
@@ -57,7 +63,6 @@ impl<H: Host> Driver<H> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::host::Host;
     use std::cell::RefCell;
     use std::io;
     use std::rc::Rc;
@@ -85,8 +90,18 @@ mod tests {
         }
     }
 
+    struct FakeBackend {
+        object_bytes: Vec<u8>,
+    }
+
+    impl Backend for FakeBackend {
+        fn compile_program(&self, _program: SourceFile) -> Result<Vec<u8>, Diagnostic> {
+            Ok(self.object_bytes.clone())
+        }
+    }
+
     #[test]
-    fn compiles_in_memory_through_a_substituted_host() {
+    fn orchestrates_read_compile_write_and_link_through_substituted_seams() {
         let written = Rc::new(RefCell::new(None));
         let linked = Rc::new(RefCell::new(None));
         let host = FakeHost {
@@ -94,14 +109,17 @@ mod tests {
             written: written.clone(),
             linked: linked.clone(),
         };
+        let backend = FakeBackend {
+            object_bytes: vec![1, 2, 3, 4],
+        };
 
-        let output = Driver::new(host).compile("mem.vam").unwrap();
+        let output = Driver::new(host, backend).compile("mem.vam").unwrap();
         assert_eq!(output, PathBuf::from("mem"));
 
         let recorded = written.borrow();
         let (object_path, bytes) = recorded.as_ref().unwrap();
         assert_eq!(object_path, "mem.o");
-        assert_eq!(&bytes[0..4], b"\x7fELF");
+        assert_eq!(bytes, &vec![1, 2, 3, 4]);
 
         let linked = linked.borrow();
         assert_eq!(

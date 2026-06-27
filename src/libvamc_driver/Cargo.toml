@@ -1,13 +1,14 @@
 [package]
-name = "vamc_backend"
+name = "vamc_driver"
 version = "0.1.0"
 authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
 edition = "2021"
 
 [lib]
-name = "vamc_backend"
+name = "vamc_driver"
 path = "src/lib.rs"
 
 [dependencies]
 vamc_errors = { path = "../libvamc_errors" }
+vamc_lexer = { path = "../libvamc_lexer" }
 vamc_parser = { path = "../libvamc_parser" }

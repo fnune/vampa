@@ -1,8 +1,8 @@
 use std::env;
 use std::process;
 
-use vamc::driver::Driver;
-use vamc::host::SystemHost;
+use vamc_driver::{Driver, SystemHost};
+use vamc_llvm::LlvmBackend;
 
 fn main() {
     let arguments: Vec<String> = env::args().collect();
@@ -14,7 +14,7 @@ fn main() {
         },
     };
 
-    let driver = Driver::new(SystemHost);
+    let driver = Driver::new(SystemHost, LlvmBackend);
     match driver.compile(source_path) {
         Ok(output) => println!("Wrote {}", output.display()),
         Err(message) => {

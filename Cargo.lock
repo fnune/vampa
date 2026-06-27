@@ -190,18 +190,16 @@ checksum = "f962df74c8c05a667b5ee8bcf162993134c104e96440b663c8daa176dc772d8c"
 name = "vamc"
 version = "0.1.0"
 dependencies = [
- "inkwell",
- "vamc_backend",
- "vamc_lexer",
+ "vamc_driver",
  "vamc_llvm",
- "vamc_parser",
 ]
 
 [[package]]
-name = "vamc_backend"
+name = "vamc_driver"
 version = "0.1.0"
 dependencies = [
  "vamc_errors",
+ "vamc_lexer",
  "vamc_parser",
 ]
 
@@ -222,8 +220,9 @@ version = "0.1.0"
 dependencies = [
  "inkwell",
  "insta",
- "vamc_backend",
+ "vamc_driver",
  "vamc_errors",
+ "vamc_lexer",
  "vamc_parser",
 ]
 

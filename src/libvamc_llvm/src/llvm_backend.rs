@@ -5,7 +5,7 @@ use inkwell::context::Context;
 use inkwell::targets::{
     CodeModel, FileType, InitializationConfig, RelocMode, Target, TargetMachine,
 };
-use vamc_backend::Backend;
+use vamc_driver::Backend;
 use vamc_errors::Diagnostic;
 use vamc_parser::definitions::ast::SourceFile;
 

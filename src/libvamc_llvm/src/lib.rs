@@ -1,6 +1,9 @@
 #[cfg(test)]
 mod tests;
 
+#[cfg(test)]
+mod behavior;
+
 pub mod definitions;
 
 mod llvm_backend;
