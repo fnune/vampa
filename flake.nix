@@ -25,7 +25,7 @@
       treefmt-nix,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (
+    flake-utils.lib.eachSystem [ "x86_64-linux" ] (
       system:
       let
         pkgs = import nixpkgs {
@@ -75,9 +75,10 @@
 
         checks.vamc = vamc;
         packages.default = vamc;
-        apps.default = flake-utils.lib.mkApp {
-          drv = vamc;
-          name = "vamc";
+        apps.default = {
+          type = "app";
+          program = "${vamc}/bin/vamc";
+          meta.description = "Compile a Vampa source file with vamc";
         };
 
         devShells.default = craneLib.devShell {
