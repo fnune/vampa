@@ -4,7 +4,7 @@ use vamc_lexer::definitions::TokenKind;
 use crate::{
     definitions::{
         Parser, ParserResult,
-        ast::{Expression, ExpressionKind},
+        ast::{Expression, ExpressionKind, Ident},
     },
     util::{is_keyword_apply, is_parameters_list_termination},
 };
@@ -19,7 +19,7 @@ impl Parser {
 
                 match token.kind {
                     TokenKind::Identifier => {
-                        let name = Box::new(token.value.clone());
+                        let name = Box::new(Ident::new(token.value.clone(), token.span));
                         let mut parameters: Vec<Box<Expression>> = Vec::default();
 
                         // Eat the identifier.

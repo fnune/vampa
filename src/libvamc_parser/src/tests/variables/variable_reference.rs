@@ -12,7 +12,7 @@ fn variable_reference() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::VariableReference(Box::new("variable_name".to_owned()))
+            kind: ExpressionKind::VariableReference(Box::new(Ident::unspanned("variable_name")))
         })
     )
 }

@@ -11,7 +11,7 @@ fn function_call_nullary() {
     assert_eq!(
         result,
         Ok(Expression {
-            kind: ExpressionKind::FunctionCall(Box::new("sum".to_owned()), vec![])
+            kind: ExpressionKind::FunctionCall(Box::new(Ident::unspanned("sum")), vec![])
         })
     )
 }
@@ -26,7 +26,7 @@ fn function_call_binary() {
         result,
         Ok(Expression {
             kind: ExpressionKind::FunctionCall(
-                Box::new("sum".to_owned()),
+                Box::new(Ident::unspanned("sum")),
                 vec![
                     Box::new(Expression {
                         kind: ExpressionKind::Literal(Literal {
@@ -54,7 +54,7 @@ fn function_call_binary_with_braces() {
         result,
         Ok(Expression {
             kind: ExpressionKind::FunctionCall(
-                Box::new("sum".to_owned()),
+                Box::new(Ident::unspanned("sum")),
                 vec![
                     Box::new(Expression {
                         kind: ExpressionKind::Block(Box::new(Block {
@@ -94,7 +94,7 @@ fn function_call_binary_as_statement_with_semicolon() {
                 }),
                 value: Box::new(Expression {
                     kind: ExpressionKind::FunctionCall(
-                        Box::new("sum".to_owned()),
+                        Box::new(Ident::unspanned("sum")),
                         vec![
                             Box::new(Expression {
                                 kind: ExpressionKind::Literal(Literal {
@@ -125,7 +125,7 @@ fn function_call_binary_as_statement_with_braces() {
             statements: vec![Box::new(Statement {
                 kind: StatementKind::Return(Box::new(Expression {
                     kind: ExpressionKind::FunctionCall(
-                        Box::new("sum".to_owned()),
+                        Box::new(Ident::unspanned("sum")),
                         vec![
                             Box::new(Expression {
                                 kind: ExpressionKind::Literal(Literal {

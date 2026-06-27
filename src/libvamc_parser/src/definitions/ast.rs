@@ -1,4 +1,34 @@
+use vamc_span::Span;
+
 type Identifier = String;
+
+#[derive(Clone, Debug)]
+pub struct Ident {
+    pub name: String,
+    pub span: Span,
+}
+
+impl Ident {
+    pub fn new(name: impl Into<String>, span: Span) -> Ident {
+        Ident {
+            name: name.into(),
+            span,
+        }
+    }
+
+    pub fn unspanned(name: impl Into<String>) -> Ident {
+        Ident {
+            name: name.into(),
+            span: Span::new(0, 0),
+        }
+    }
+}
+
+impl PartialEq for Ident {
+    fn eq(&self, other: &Ident) -> bool {
+        self.name == other.name
+    }
+}
 
 #[derive(Debug, PartialEq)]
 pub struct SourceFile {
@@ -53,13 +83,13 @@ pub enum ExpressionKind {
     Literal(Literal),
     /// A function call such as `sum 20 10` FunctionCall(F, P) where F is a
     /// reference to the function and P is the Vector of parameters.
-    FunctionCall(Box<Identifier>, Vec<Box<Expression>>),
+    FunctionCall(Box<Ident>, Vec<Box<Expression>>),
     /// A binary operation such as `+ 20 20`.
     BinaryOperation(BinaryOperation),
     /// Blocks always evaluate to something, so they're also expressions.
     Block(Box<Block>),
     /// A reference to a variable.
-    VariableReference(Box<Identifier>),
+    VariableReference(Box<Ident>),
 }
 
 #[derive(Debug, PartialEq)]

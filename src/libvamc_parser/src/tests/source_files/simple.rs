@@ -50,7 +50,7 @@ fn simple_module_with_variable_reference() {
             file_name: "program.vam".into(),
             statements: vec![Box::new(Statement {
                 kind: StatementKind::Return(Box::new(Expression {
-                    kind: ExpressionKind::VariableReference(Box::new("first".to_string())),
+                    kind: ExpressionKind::VariableReference(Box::new(Ident::unspanned("first"))),
                 })),
             }),]
         })

@@ -3,7 +3,7 @@ use vamc_errors::Diagnostic;
 use crate::{
     definitions::{
         Parser, ParserResult,
-        ast::{Expression, ExpressionKind},
+        ast::{Expression, ExpressionKind, Ident},
     },
     util::is_keyword,
 };
@@ -19,7 +19,10 @@ impl Parser {
                 self.token()
             ))),
             token => Ok(Expression {
-                kind: ExpressionKind::VariableReference(Box::new(token.value.clone())),
+                kind: ExpressionKind::VariableReference(Box::new(Ident::new(
+                    token.value.clone(),
+                    token.span,
+                ))),
             }),
         };
 
