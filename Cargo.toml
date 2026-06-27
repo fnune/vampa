@@ -7,4 +7,5 @@ members = [
   "src/libvamc_llvm",
   "src/libvamc_driver",
   "src/libvamc_errors",
+  "src/libvamc_span",
 ]

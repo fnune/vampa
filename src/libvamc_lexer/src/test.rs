@@ -1,6 +1,24 @@
 #[cfg(test)]
 mod test {
     use crate::*;
+    use vamc_span::Span;
+
+    #[test]
+    fn tracks_token_spans() {
+        let tokens: Vec<Token> = Cursor::new("ab cd").collect();
+
+        assert_eq!(tokens[0].span, Span::new(0, 2));
+        assert_eq!(tokens[1].span, Span::new(2, 3));
+        assert_eq!(tokens[2].span, Span::new(3, 5));
+    }
+
+    #[test]
+    fn spans_count_bytes_not_characters() {
+        let tokens: Vec<Token> = Cursor::new("é x").collect();
+
+        assert_eq!(tokens[0].span, Span::new(0, 2));
+        assert_eq!(tokens[2].span, Span::new(3, 4));
+    }
 
     #[test]
     fn works_with_a_basic_assignment() {

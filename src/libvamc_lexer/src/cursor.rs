@@ -2,6 +2,7 @@ use std::{iter::Peekable, str::Chars};
 
 pub struct Cursor<'a> {
     characters: Peekable<Chars<'a>>,
+    position: usize,
 }
 
 const EOF_CHARACTER: char = '\0';
@@ -10,7 +11,12 @@ impl<'a> Cursor<'a> {
     pub fn new(input: &'a str) -> Cursor<'a> {
         Cursor {
             characters: input.chars().peekable(),
+            position: 0,
         }
+    }
+
+    pub fn offset(&self) -> usize {
+        self.position
     }
 
     pub fn is_eof(&mut self) -> bool {
@@ -22,7 +28,11 @@ impl<'a> Cursor<'a> {
     }
 
     pub fn bump(&mut self) -> Option<char> {
-        self.characters.next()
+        let next = self.characters.next();
+        if let Some(character) = next {
+            self.position += character.len_utf8();
+        }
+        next
     }
 
     pub fn bump_while<F>(&mut self, predicate: F) -> String

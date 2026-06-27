@@ -30,6 +30,7 @@ fn variable_reference_but_is_keyword() {
             message:
                 "Failed to parse variable reference: [Identifier] `and` is a reserved keyword."
                     .into(),
+            span: None,
         })
     )
 }

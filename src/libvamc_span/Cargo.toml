@@ -1,14 +1,9 @@
 [package]
-name = "vamc_lexer"
+name = "vamc_span"
 version = "0.1.0"
 authors = ["Fausto Núñez Alberro <fausto.nunez@mailbox.org>"]
 edition = "2021"
 
 [lib]
-name = "vamc_lexer"
+name = "vamc_span"
 path = "src/lib.rs"
-
-[dependencies]
-vamc_span = { path = "../libvamc_span" }
-
-unicode-xid = "0.2.1"

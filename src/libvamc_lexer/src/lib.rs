@@ -8,13 +8,21 @@ mod util;
 
 use crate::{cursor::Cursor, definitions::*, util::*};
 use std::fmt::{Display, Formatter};
+use vamc_span::Span;
 
 impl Token {
     pub fn new<S: Into<String>>(kind: TokenKind, value: S) -> Token {
         Token {
             kind,
             value: value.into(),
+            span: Span::new(0, 0),
         }
+    }
+}
+
+impl PartialEq for Token {
+    fn eq(&self, other: &Token) -> bool {
+        self.kind == other.kind && self.value == other.value
     }
 }
 
@@ -26,9 +34,10 @@ impl Display for Token {
 
 impl Cursor<'_> {
     fn advance(&mut self) -> Token {
+        let start = self.offset();
         let character = self.bump().unwrap();
 
-        match character {
+        let mut token = match character {
             character if is_identifier_start(character) => self.token_identifier(character),
             character if is_whitespace(character) => self.token_whitespace(),
             character if is_numeric_literal(character) => self.token_numeric_literal(character),
@@ -49,7 +58,10 @@ impl Cursor<'_> {
             '{' => Token::new(TokenKind::OpeningBrace, "{"),
             '}' => Token::new(TokenKind::ClosingBrace, "}"),
             _ => Token::new(TokenKind::Unknown, ""),
-        }
+        };
+
+        token.span = Span::new(start, self.offset());
+        token
     }
 
     fn token_identifier(&mut self, character: char) -> Token {

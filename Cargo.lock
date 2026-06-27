@@ -206,12 +206,16 @@ dependencies = [
 [[package]]
 name = "vamc_errors"
 version = "0.1.0"
+dependencies = [
+ "vamc_span",
+]
 
 [[package]]
 name = "vamc_lexer"
 version = "0.1.0"
 dependencies = [
  "unicode-xid",
+ "vamc_span",
 ]
 
 [[package]]
@@ -232,7 +236,12 @@ version = "0.1.0"
 dependencies = [
  "vamc_errors",
  "vamc_lexer",
+ "vamc_span",
 ]
+
+[[package]]
+name = "vamc_span"
+version = "0.1.0"
 
 [[package]]
 name = "windows-sys"

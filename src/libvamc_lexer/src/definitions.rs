@@ -53,8 +53,11 @@ pub enum TokenKind {
     EOF,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+use vamc_span::Span;
+
+#[derive(Clone, Debug)]
 pub struct Token {
     pub kind: TokenKind,
     pub value: String,
+    pub span: Span,
 }

@@ -83,7 +83,7 @@ impl Parser {
         let token = self.token();
         match token.kind {
             kind if kind == token_kind => Ok(ok),
-            _ => Err(Diagnostic::error(err.into())),
+            _ => Err(Diagnostic::error_at(err.into(), token.span)),
         }
     }
 

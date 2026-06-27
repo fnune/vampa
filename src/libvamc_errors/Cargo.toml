@@ -7,3 +7,6 @@ edition = "2021"
 [lib]
 name = "vamc_errors"
 path = "src/lib.rs"
+
+[dependencies]
+vamc_span = { path = "../libvamc_span" }
