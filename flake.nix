@@ -37,6 +37,7 @@
         craneLib = (crane.mkLib pkgs).overrideToolchain rustToolchain;
 
         llvm = pkgs.llvmPackages_22.llvm;
+        cc = pkgs.stdenv.cc;
 
         commonArgs = {
           pname = "vamc";
@@ -57,6 +58,7 @@
           ];
 
           "LLVM_SYS_221_PREFIX" = llvm.dev;
+          "VAMPA_CC" = "${cc}/bin/cc";
         };
 
         cargoArtifacts = craneLib.buildDepsOnly commonArgs;
@@ -88,6 +90,7 @@
             pkgs.just
           ];
           "LLVM_SYS_221_PREFIX" = llvm.dev;
+          "VAMPA_CC" = "${cc}/bin/cc";
         };
       }
     );

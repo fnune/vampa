@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 
+use inkwell::OptimizationLevel;
 use inkwell::context::Context;
+use inkwell::targets::{
+    CodeModel, FileType, InitializationConfig, RelocMode, Target, TargetMachine,
+};
 use vamc_lexer::{cursor::Cursor, definitions::Token};
 use vamc_llvm::definitions::Compiler;
 use vamc_parser::definitions::Parser;
@@ -25,17 +29,25 @@ impl<H: Host> Driver<H> {
 
         let object_bytes = emit_object(source_path, &source);
 
-        let mut output_path = PathBuf::from(source_path);
-        output_path.set_extension("o");
-        let output_str = output_path
+        let object_path = PathBuf::from(source_path).with_extension("o");
+        let object_str = object_path
             .to_str()
-            .expect("Output path is not valid UTF-8.");
+            .expect("Object path is not valid UTF-8.");
 
         self.host
-            .write_object(output_str, &object_bytes)
-            .map_err(|error| format!("Failed to write {output_str}: {error}"))?;
+            .write_object(object_str, &object_bytes)
+            .map_err(|error| format!("Failed to write {object_str}: {error}"))?;
 
-        Ok(output_path)
+        let executable_path = PathBuf::from(source_path).with_extension("");
+        let executable_str = executable_path
+            .to_str()
+            .expect("Executable path is not valid UTF-8.");
+
+        self.host
+            .link(object_str, executable_str)
+            .map_err(|error| format!("Failed to link {executable_str}: {error}"))?;
+
+        Ok(executable_path)
     }
 }
 
@@ -64,14 +76,30 @@ fn emit_object(module_name: &str, source: &str) -> Vec<u8> {
 
     compiler.compile_source_file(source_file_ast);
 
-    let buffer = compiler.module.write_bitcode_to_memory();
-    let bytes = buffer.as_slice();
+    Target::initialize_native(&InitializationConfig::default())
+        .expect("Failed to initialize the native target.");
 
-    // Bitcode is a stream of 32-bit words, but inkwell's buffer carries a
-    // trailing terminator byte that pushes the length past a word boundary and
-    // makes the file unreadable, so keep only whole words.
-    let whole_words = bytes.len() - (bytes.len() % 4);
-    bytes[..whole_words].to_vec()
+    let triple = TargetMachine::get_default_triple();
+    let target = Target::from_triple(&triple).expect("Failed to look up the native target.");
+    let machine = target
+        .create_target_machine(
+            &triple,
+            TargetMachine::get_host_cpu_name().to_str().unwrap(),
+            TargetMachine::get_host_cpu_features().to_str().unwrap(),
+            OptimizationLevel::None,
+            RelocMode::PIC,
+            CodeModel::Default,
+        )
+        .expect("Failed to create a target machine.");
+
+    module.set_triple(&triple);
+    module.set_data_layout(&machine.get_target_data().get_data_layout());
+
+    machine
+        .write_to_memory_buffer(&module, FileType::Object)
+        .expect("Failed to emit a native object file.")
+        .as_slice()
+        .to_vec()
 }
 
 #[cfg(test)]
@@ -85,6 +113,7 @@ mod tests {
     struct FakeHost {
         source: String,
         written: Rc<RefCell<Option<(String, Vec<u8>)>>>,
+        linked: Rc<RefCell<Option<(String, String)>>>,
     }
 
     impl Host for FakeHost {
@@ -96,22 +125,36 @@ mod tests {
             *self.written.borrow_mut() = Some((path.to_string(), bytes.to_vec()));
             Ok(())
         }
+
+        fn link(&self, object_path: &str, executable_path: &str) -> io::Result<()> {
+            *self.linked.borrow_mut() =
+                Some((object_path.to_string(), executable_path.to_string()));
+            Ok(())
+        }
     }
 
     #[test]
     fn compiles_in_memory_through_a_substituted_host() {
         let written = Rc::new(RefCell::new(None));
+        let linked = Rc::new(RefCell::new(None));
         let host = FakeHost {
             source: "fun three returning i32 = 3;\napply three".to_string(),
             written: written.clone(),
+            linked: linked.clone(),
         };
 
         let output = Driver::new(host).compile("mem.vam").unwrap();
-        assert_eq!(output, PathBuf::from("mem.o"));
+        assert_eq!(output, PathBuf::from("mem"));
 
         let recorded = written.borrow();
-        let (path, bytes) = recorded.as_ref().unwrap();
-        assert_eq!(path, "mem.o");
-        assert_eq!(&bytes[0..2], b"BC");
+        let (object_path, bytes) = recorded.as_ref().unwrap();
+        assert_eq!(object_path, "mem.o");
+        assert_eq!(&bytes[0..4], b"\x7fELF");
+
+        let linked = linked.borrow();
+        assert_eq!(
+            linked.as_ref().unwrap(),
+            &("mem.o".to_string(), "mem".to_string())
+        );
     }
 }

@@ -55,7 +55,9 @@ fun three returning i32 = 3;
 apply three
 ```
 
-Compile and run it. A program's result is its exit code:
+Compile and run it. `vamc` emits a native object file and links it into an
+executable next to the source (`./test` for `./test.vam`). A program's result is
+its exit code:
 
 ```sh
 just run ./test.vam
