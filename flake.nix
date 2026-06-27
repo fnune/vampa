@@ -39,6 +39,9 @@
         llvm = pkgs.llvmPackages_22.llvm;
 
         commonArgs = {
+          pname = "vamc";
+          version = "0.1.0";
+
           src = pkgs.lib.cleanSourceWith {
             src = ./.;
             filter = path: type: (pkgs.lib.hasSuffix ".snap" path) || (craneLib.filterCargoSources path type);
@@ -78,7 +81,11 @@
         };
 
         devShells.default = craneLib.devShell {
-          packages = commonArgs.buildInputs ++ [ llvm.dev ];
+          packages = commonArgs.buildInputs ++ [
+            llvm
+            llvm.dev
+            pkgs.just
+          ];
           "LLVM_SYS_221_PREFIX" = llvm.dev;
         };
       }
