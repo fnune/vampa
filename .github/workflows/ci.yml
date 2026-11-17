@@ -5,23 +5,17 @@ on:
     branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v30
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          install_url: https://releases.nixos.org/nix/nix-2.32.1/install
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-      - uses: nix-community/cache-nix-action@v6
+          persist-credentials: false
+      - uses: fnune/ci@1acf10fef155895b7441ad432e6d42b2a0be5e6e
         with:
-          primary-key: nix-${{ runner.os }}-${{ hashFiles('flake.nix', 'flake.lock', 'Cargo.lock') }}
-          restore-prefixes-first-match: nix-${{ runner.os }}-
-          gc-max-store-size-linux: 8G
-          purge: true
-          purge-prefixes: nix-${{ runner.os }}-
-          purge-created: 0
-          purge-primary-key: never
-      - run: nix flake check -L --no-update-lock-file
+          dev-shell: ""
+          command: nix flake check -L --no-update-lock-file
