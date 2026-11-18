@@ -1,0 +1,5 @@
+description = "vampa: Rust compiler with LLVM from the flake"
+modules = ["vcs-readwrite", "docs", "nix"]
+
+[egress]
+allow = ["crates.io", "index.crates.io", "static.crates.io"]
